@@ -17,6 +17,7 @@ public protocol Fill
 {
 
     /// Draws the provided path in filled mode with the provided area
+    /// 使用提供的区域以填充模式绘制提供的路径
     @objc func fillPath(context: CGContext, rect: CGRect)
 }
 
@@ -46,9 +47,12 @@ public class ColorFill: NSObject, Fill
 
     public func fillPath(context: CGContext, rect: CGRect)
     {
+        /// 入栈
         context.saveGState()
+        /// 出栈
         defer { context.restoreGState() }
 
+        /// 颜色填充
         context.setFillColor(color)
         context.fillPath()
     }
@@ -59,7 +63,7 @@ public class ImageFill: NSObject, Fill
 {
 
     @objc public let image: CGImage
-    @objc public let isTiled: Bool
+    @objc public let isTiled: Bool /// 是否平铺
 
     @objc public init(cgImage: CGImage, isTiled: Bool = false)
     {
@@ -78,6 +82,7 @@ public class ImageFill: NSObject, Fill
         context.saveGState()
         defer { context.restoreGState() }
 
+        /// 绘制前为什么要进行裁剪??
         context.clip()
         context.draw(image, in: rect, byTiling: isTiled)
     }
@@ -106,7 +111,7 @@ public class LayerFill: NSObject, Fill
 }
 
 @objc(ChartLinearGradientFill)
-public class LinearGradientFill: NSObject, Fill
+public class LinearGradientFill: NSObject, Fill /// 线性渐变
 {
 
     @objc public let gradient: CGGradient
