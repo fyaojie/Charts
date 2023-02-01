@@ -80,9 +80,12 @@ public class ImageFill: NSObject, Fill
     public func fillPath(context: CGContext, rect: CGRect)
     {
         context.saveGState()
+        /***
+         "defer"是Swift语言中的一个关键字，用于在代码块结束时执行特定的清理操作。它与"try"和"catch"一起使用，用于处理可能出现的错误。
+         当代码块结束时，defer语句中的清理操作将被自动执行，无论代码块中是否发生错误。因此，defer语句常用于在代码块中打开文件、分配资源等，以确保在代码块结束时及时释放资源。
+         */
         defer { context.restoreGState() }
 
-        /// 绘制前为什么要进行裁剪??
         context.clip()
         context.draw(image, in: rect, byTiling: isTiled)
     }
@@ -105,6 +108,9 @@ public class LayerFill: NSObject, Fill
         context.saveGState()
         defer { context.restoreGState() }
 
+        /**
+         在调用context.draw(layer, in: rect)之前调用context.clip()是因为裁剪操作限制了绘图的范围，只有在裁剪范围内的图形才会被绘制。因此，如果在调用context.draw(layer, in: rect)之前不进行裁剪，整个layer可能会被绘制到屏幕上，而不是仅绘制rect指定的范围。因此，裁剪可以限制绘制范围，并确保只绘制所需的图形。
+         */
         context.clip()
         context.draw(layer, in: rect)
     }
