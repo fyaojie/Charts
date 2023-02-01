@@ -22,6 +22,7 @@ import Cocoa
 
 extension Comparable
 {
+    /// 根据当前值和范围获取对应值, 超过上限取上限, 超过下限取下限
     func clamped(to range: ClosedRange<Self>) -> Self
     {
         if self > range.upperBound
@@ -41,18 +42,20 @@ extension Comparable
 
 extension FloatingPoint
 {
+    /// 角度转弧度
     var DEG2RAD: Self
     {
         return self * .pi / 180
     }
 
+    /// 弧度转角度
     var RAD2DEG: Self
     {
         return self * 180 / .pi
     }
 
-    /// - Note: Value must be in degrees
-    /// - Returns: An angle between 0.0 < 360.0 (not less than zero, less than 360)
+    /// - Note: Value must be in degrees 值必须以度为单位
+    /// - Returns: An angle between 0.0 < 360.0 (not less than zero, less than 360) 0.0<360.0之间的角度（不小于零，小于360）
     var normalizedAngle: Self
     {
         let angle = truncatingRemainder(dividingBy: 360)
@@ -80,14 +83,16 @@ extension CGSize
 extension Double
 {
     /// Rounds the number to the nearest multiple of it's order of magnitude, rounding away from zero if halfway.
-    func roundedToNextSignficant() -> Double
+    /// 将数字舍入到其数量级的最接近倍数，如果中途舍入，则从零开始舍入
+    func roundedToNextSignificant() -> Double
     {
         guard
-            !isInfinite,
-            !isNaN,
+            !isInfinite, /// 检查当前的浮点数值是否为无限数值
+            !isNaN,  /// 检查当前数字是否为非数字
             self != 0
             else { return self }
 
+        /// 向上取整获取倍数
         let d = ceil(log10(self < 0 ? -self : self))
         let pw = 1 - Int(d)
         let magnitude = pow(10.0, Double(pw))
@@ -95,6 +100,7 @@ extension Double
         return shifted / magnitude
     }
 
+    /// 小数点位数
     var decimalPlaces: Int
     {
         guard
@@ -117,6 +123,7 @@ extension Double
 extension CGPoint
 {
     /// Calculates the position around a center point, depending on the distance from the center, and the angle of the position around the center.
+    /// 根据距中心的距离和围绕中心的位置的角度，计算围绕中心点的位置。
     func moving(distance: CGFloat, atAngle angle: CGFloat) -> CGPoint
     {
         return CGPoint(x: x + distance * cos(angle.DEG2RAD),
@@ -144,20 +151,22 @@ open class ChartUtils
         if image.size.width != size.width && image.size.height != size.height
         {
             let key = "resized_\(size.width)_\(size.height)"
-            
-            // Try to take scaled image from cache of this image
+
+            /// Try to take scaled image from cache of this image
+            /// 尝试从此图像的缓存中获取缩放图像
             var scaledImage = objc_getAssociatedObject(image, key) as? NSUIImage
             if scaledImage == nil
             {
-                // Scale the image
+                // Scale the image 缩放图像
                 NSUIGraphicsBeginImageContextWithOptions(size, false, 0.0)
                 
                 image.draw(in: CGRect(origin: CGPoint(x: 0, y: 0), size: size))
                 
                 scaledImage = NSUIGraphicsGetImageFromCurrentImageContext()
                 NSUIGraphicsEndImageContext()
-                
-                // Put the scaled image in a cache owned by the original image
+
+                /// Put the scaled image in a cache owned by the original image
+                /// 将缩放图像放在原始图像拥有的缓存中
                 objc_setAssociatedObject(image, key, scaledImage, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             }
             

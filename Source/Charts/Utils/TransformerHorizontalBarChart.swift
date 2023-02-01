@@ -16,6 +16,7 @@ import CoreGraphics
 open class TransformerHorizontalBarChart: Transformer
 {
     /// Prepares the matrix that contains all offsets.
+    /// 准备包含所有偏移量的矩阵。
     open override func prepareMatrixOffset(inverted: Bool)
     {
         if !inverted

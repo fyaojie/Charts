@@ -13,49 +13,63 @@ import Foundation
 import CoreGraphics
 
 /// Class that contains information about the charts current viewport settings, including offsets, scale & translation levels, ...
+/// 类，该类包含有关图表当前视口设置的信息，包括偏移、缩放和平移级别等。。。
 @objc(ChartViewPortHandler)
 open class ViewPortHandler: NSObject
 {
     /// matrix used for touch events
+    /// 用于触摸事件的矩阵
     private var _touchMatrix = CGAffineTransform.identity
     
     /// this rectangle defines the area in which graph values can be drawn
+    /// 此矩形定义了可以绘制图形值的区域
     private var _contentRect = CGRect()
     
     private var _chartWidth = CGFloat(0.0)
     private var _chartHeight = CGFloat(0.0)
     
     /// minimum scale value on the y-axis
+    /// y轴上的最小刻度值
     private var _minScaleY = CGFloat(1.0)
     
     /// maximum scale value on the y-axis
+    /// y轴上的最大刻度值
     private var _maxScaleY = CGFloat.greatestFiniteMagnitude
     
     /// minimum scale value on the x-axis
+    /// x轴上的最小刻度值
     private var _minScaleX = CGFloat(1.0)
     
     /// maximum scale value on the x-axis
+    /// x轴上的最大刻度值
     private var _maxScaleX = CGFloat.greatestFiniteMagnitude
     
     /// contains the current scale factor of the x-axis
+    /// 包含x轴的当前比例因子
     private var _scaleX = CGFloat(1.0)
     
     /// contains the current scale factor of the y-axis
+    /// 包含y轴的当前比例因子
     private var _scaleY = CGFloat(1.0)
     
     /// current translation (drag distance) on the x-axis
+    /// x轴上的当前平移（拖动/平移）距离
     private var _transX = CGFloat(0.0)
     
     /// current translation (drag distance) on the y-axis
+    /// y轴上的当前平移（拖动/平移）距离
     private var _transY = CGFloat(0.0)
     
     /// offset that allows the chart to be dragged over its bounds on the x-axis
+    /// 允许图表在x轴上的边界上拖动的偏移量
     private var _transOffsetX = CGFloat(0.0)
     
     /// offset that allows the chart to be dragged over its bounds on the x-axis
+    /// 允许图表在x轴上的边界上拖动的偏移量
     private var _transOffsetY = CGFloat(0.0)
-    
+
     /// Constructor - don't forget calling setChartDimens(...)
+    /// 构造函数-不要忘记调用setChartDimens
     @objc public init(width: CGFloat, height: CGFloat)
     {
         super.init()
@@ -169,12 +183,14 @@ open class ViewPortHandler: NSObject
     // MARK: - Scaling/Panning etc.
     
     /// Zooms by the specified zoom factors.
+    /// 按指定的缩放因子缩放。
     @objc open func zoom(scaleX: CGFloat, scaleY: CGFloat) -> CGAffineTransform
     {
         return _touchMatrix.scaledBy(x: scaleX, y: scaleY)
     }
     
     /// Zooms around the specified center
+    /// 围绕指定中心缩放
     @objc open func zoom(scaleX: CGFloat, scaleY: CGFloat, x: CGFloat, y: CGFloat) -> CGAffineTransform
     {
         var matrix = _touchMatrix.translatedBy(x: x, y: y)
@@ -184,24 +200,28 @@ open class ViewPortHandler: NSObject
     }
     
     /// Zooms in by 1.4, x and y are the coordinates (in pixels) of the zoom center.
+    /// 放大1.4，x和y是缩放中心的坐标（以像素为单位）。
     @objc open func zoomIn(x: CGFloat, y: CGFloat) -> CGAffineTransform
     {
         return zoom(scaleX: 1.4, scaleY: 1.4, x: x, y: y)
     }
     
     /// Zooms out by 0.7, x and y are the coordinates (in pixels) of the zoom center.
+    /// 缩小0.7，x和y是缩放中心的坐标（以像素为单位）。
     @objc open func zoomOut(x: CGFloat, y: CGFloat) -> CGAffineTransform
     {
         return zoom(scaleX: 0.7, scaleY: 0.7, x: x, y: y)
     }
     
     /// Zooms out to original size.
+    /// 缩小到原始大小。
     @objc open func resetZoom() -> CGAffineTransform
     {
         return zoom(scaleX: 1.0, scaleY: 1.0, x: 0.0, y: 0.0)
     }
     
     /// Sets the scale factor to the specified values.
+    /// 将比例因子设置为指定值。
     @objc open func setZoom(scaleX: CGFloat, scaleY: CGFloat) -> CGAffineTransform
     {
         var matrix = _touchMatrix
@@ -211,6 +231,7 @@ open class ViewPortHandler: NSObject
     }
     
     /// Sets the scale factor to the specified values. x and y is pivot.
+    /// 将比例因子设置为指定值。x和y是枢轴。
     @objc open func setZoom(scaleX: CGFloat, scaleY: CGFloat, x: CGFloat, y: CGFloat) -> CGAffineTransform
     {
         var matrix = _touchMatrix
@@ -223,6 +244,7 @@ open class ViewPortHandler: NSObject
     }
     
     /// Resets all zooming and dragging and makes the chart fit exactly it's bounds.
+    /// 重置所有缩放和拖动，并使图表完全符合其边界。
     @objc open func fitScreen() -> CGAffineTransform
     {
         _minScaleX = 1.0
@@ -232,6 +254,7 @@ open class ViewPortHandler: NSObject
     }
     
     /// Translates to the specified point.
+    /// 转换到指定点。
     @objc open func translate(pt: CGPoint) -> CGAffineTransform
     {
         let translateX = pt.x - offsetLeft
@@ -243,8 +266,11 @@ open class ViewPortHandler: NSObject
     }
     
     /// Centers the viewport around the specified position (x-index and y-value) in the chart.
+    /// 将视口围绕图表中的指定位置（x索引和y值）居中。
     /// Centering the viewport outside the bounds of the chart is not possible.
+    /// 无法将视口居中放置在图表边界之外。
     /// Makes most sense in combination with the setScaleMinima(...) method.
+    /// 与setScaleMinima（…）方法结合使用最有意义。
     @objc open func centerViewPort(pt: CGPoint, chart: ChartViewBase)
     {
         let translateX = pt.x - offsetLeft
@@ -255,11 +281,13 @@ open class ViewPortHandler: NSObject
     }
     
     /// call this method to refresh the graph with a given matrix
+    /// 调用此方法以使用给定矩阵刷新图形
     @objc @discardableResult open func refresh(newMatrix: CGAffineTransform, chart: ChartViewBase, invalidate: Bool) -> CGAffineTransform
     {
         _touchMatrix = newMatrix
         
-        // make sure scale and translation are within their bounds
+        /// make sure scale and translation are within their bounds
+        /// 确保缩放和平移在其范围内
         limitTransAndScale(matrix: &_touchMatrix, content: _contentRect)
         
         chart.setNeedsDisplay()
@@ -268,6 +296,7 @@ open class ViewPortHandler: NSObject
     }
     
     /// limits the maximum scale and X translation of the given matrix
+    /// 限制给定矩阵的最大比例和X平移
     private func limitTransAndScale(matrix: inout CGAffineTransform, content: CGRect?)
     {
         // min scale-x is 1
@@ -299,6 +328,7 @@ open class ViewPortHandler: NSObject
     }
     
     /// Sets the minimum scale factor for the x-axis
+    /// 设置x轴的最小比例因子
     @objc open func setMinimumScaleX(_ xScale: CGFloat)
     {
         var newValue = xScale
@@ -314,6 +344,7 @@ open class ViewPortHandler: NSObject
     }
     
     /// Sets the maximum scale factor for the x-axis
+    /// 设置x轴的最大比例因子
     @objc open func setMaximumScaleX(_ xScale: CGFloat)
     {
         var newValue = xScale
@@ -329,6 +360,7 @@ open class ViewPortHandler: NSObject
     }
     
     /// Sets the minimum and maximum scale factors for the x-axis
+    /// 设置x轴的最小和最大比例因子
     @objc open func setMinMaxScaleX(minScaleX: CGFloat, maxScaleX: CGFloat)
     {
         var newMin = minScaleX
@@ -350,6 +382,7 @@ open class ViewPortHandler: NSObject
     }
     
     /// Sets the minimum scale factor for the y-axis
+    /// 设置y轴的最小比例因子
     @objc open func setMinimumScaleY(_ yScale: CGFloat)
     {
         var newValue = yScale
@@ -365,6 +398,7 @@ open class ViewPortHandler: NSObject
     }
     
     /// Sets the maximum scale factor for the y-axis
+    /// 设置y轴的最大比例因子
     @objc open func setMaximumScaleY(_ yScale: CGFloat)
     {
         var newValue = yScale
@@ -418,6 +452,7 @@ open class ViewPortHandler: NSObject
     
     /**
      A method to check whether coordinate lies within the viewport.
+     检查坐标是否位于视口内的方法。
      
      - Parameters:
          - point: a coordinate.
@@ -456,6 +491,7 @@ open class ViewPortHandler: NSObject
     
     /**
      A method to check whether a line between two coordinates intersects with the view port  by using a linear function.
+     一种使用线性函数检查两个坐标之间的直线是否与视图端口相交的方法。
      
         Linear function (calculus): `y = ax + b`
             
@@ -468,35 +504,44 @@ open class ViewPortHandler: NSObject
      */
     @objc open func isIntersectingLine(from startPoint: CGPoint, to endPoint: CGPoint) -> Bool
     {
-        // If start- and/or endpoint fall within the viewport, bail out early.
+        /// If start- and/or endpoint fall within the viewport, bail out early.
+        /// 如果起点和/或终点位于视口内，请提前退出。
         if isInBounds(point: startPoint) || isInBounds(point: endPoint) { return true }
-        // check if x in bound when it's a vertical line
+        /// check if x in bound when it's a vertical line
+        ///当x是垂直线时，检查x是否在边界内
         if startPoint.x == endPoint.x { return isInBoundsX(startPoint.x) }
         
-        // Calculate the slope (`a`) of the line (e.g. `a = (y2 - y1) / (x2 - x1)`).
+        /// Calculate the slope (`a`) of the line (e.g. `a = (y2 - y1) / (x2 - x1)`).
+        /// 计算直线的斜率（“a”）（例如“a=（y2-y1）/（x2-x1）”）。
         let a = (endPoint.y - startPoint.y) / (endPoint.x - startPoint.x)
         // Calculate the y-correction (`b`) of the line (e.g. `b = y1 - (a * x1)`).
         let b = startPoint.y - (a * startPoint.x)
         
         // Check for colission with the left edge of the view port (e.g. `y = (a * minX) + b`).
         // if a is 0, it's a horizontal line; checking b here is still valid, as b is `point.y` all the time
+        /// 检查与查看端口左边缘的一致性（例如“y=（a*minX）+b”）。如果a为0，则为水平线；在这里检查b仍然有效，因为b始终是“point.y”
         if isInBoundsY((a * contentRect.minX) + b) { return true }
 
         // Skip unnecessary check for collision with the right edge of the view port
         // (e.g. `y = (a * maxX) + b`), as such a line will either begin inside the view port,
         // or intersect the left, top or bottom edges of the view port. Leaving this logic here for clarity's sake:
+        /// 跳过不必要的检查，以避免与查看端口的右边缘发生冲突（例如‘y＝（a*maxX）+b’），或与视图端口的左、上或下边缘相交。为了清楚起见，将此逻辑保留在此处：
         // if isInBoundsY((a * contentRect.maxX) + b) { return true }
         
         // While slope `a` can theoretically never be `0`, we should protect against division by zero.
+        /// 虽然斜率“a”理论上永远不可能是“0”，但我们应该防止被零除。
         guard a != 0 else { return false }
         
         // Check for collision with the bottom edge of the view port (e.g. `x = (maxY - b) / a`).
+        /// 检查是否与查看端口的底部边缘发生冲突（例如，“x=（maxY-b）/a”）。
         if isInBoundsX((contentRect.maxY - b) / a) { return true }
         
-        // Check for collision with the top edge of the view port (e.g. `x = (minY - b) / a`).
+        /// Check for collision with the top edge of the view port (e.g. `x = (minY - b) / a`).
+        /// 检查是否与查看端口的顶部边缘发生冲突（例如，“x=（minY-b）/a”）。
         if isInBoundsX((contentRect.minY - b) / a) { return true }
 
         // This line does not intersect the view port.
+        /// 这条线与视图端口不相交。
         return false
     }
     
@@ -549,60 +594,70 @@ open class ViewPortHandler: NSObject
     }
     
     /// if the chart is fully zoomed out, return true
+    /// 如果图表完全缩小，则返回true
     @objc open var isFullyZoomedOut: Bool
     {
         return isFullyZoomedOutX && isFullyZoomedOutY
     }
     
     /// `true` if the chart is fully zoomed out on it's y-axis (vertical).
+    /// `如果图表在y轴（垂直）上完全缩小，则为true。
     @objc open var isFullyZoomedOutY: Bool
     {
         return !(_scaleY > _minScaleY || _minScaleY > 1.0)
     }
     
     /// `true` if the chart is fully zoomed out on it's x-axis (horizontal).
+    /// `如果图表在x轴（水平）上完全缩小，则为true。
     @objc open var isFullyZoomedOutX: Bool
     {
         return !(_scaleX > _minScaleX || _minScaleX > 1.0)
     }
     
     /// Set an offset in pixels that allows the user to drag the chart over it's bounds on the x-axis.
+    /// 设置一个以像素为单位的偏移量，允许用户将图表拖到x轴上的边界上。
     @objc open func setDragOffsetX(_ offset: CGFloat)
     {
         _transOffsetX = offset
     }
     
     /// Set an offset in pixels that allows the user to drag the chart over it's bounds on the y-axis.
+    /// 设置一个以像素为单位的偏移量，允许用户将图表拖到y轴上的边界上。
     @objc open func setDragOffsetY(_ offset: CGFloat)
     {
         _transOffsetY = offset
     }
     
     /// `true` if both drag offsets (x and y) are zero or smaller.
+    /// `如果两个拖动偏移（x和y）都为零或更小，则为true。
     @objc open var hasNoDragOffset: Bool
     {
         return _transOffsetX <= 0.0 && _transOffsetY <= 0.0
     }
     
     /// `true` if the chart is not yet fully zoomed out on the x-axis
+    /// `true`如果图表尚未在x轴上完全缩小
     @objc open var canZoomOutMoreX: Bool
     {
         return _scaleX > _minScaleX
     }
     
     /// `true` if the chart is not yet fully zoomed in on the x-axis
+    /// `true`如果图表尚未在x轴上完全放大
     @objc open var canZoomInMoreX: Bool
     {
         return _scaleX < _maxScaleX
     }
     
     /// `true` if the chart is not yet fully zoomed out on the y-axis
+    /// `true`如果图表尚未在y轴上完全缩小
     @objc open var canZoomOutMoreY: Bool
     {
         return _scaleY > _minScaleY
     }
     
     /// `true` if the chart is not yet fully zoomed in on the y-axis
+    /// `true`如果图表尚未在y轴上完全放大
     @objc open var canZoomInMoreY: Bool
     {
         return _scaleY < _maxScaleY
