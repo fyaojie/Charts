@@ -310,12 +310,16 @@
 
 - (void)setupBarLineChartView:(BarLineChartViewBase *)chartView
 {
+    /// 图表描述 - 一般在右下角
     chartView.chartDescription.enabled = NO;
     
+    /// 是否要画网格
     chartView.drawGridBackgroundEnabled = NO;
     
     chartView.dragEnabled = YES;
     [chartView setScaleEnabled:YES];
+    
+    /// 是否支持X轴、Y轴同时缩放，如果是YES ，则代表支持同时缩放。
     chartView.pinchZoomEnabled = NO;
     
     // ChartYAxis *leftAxis = chartView.leftAxis;

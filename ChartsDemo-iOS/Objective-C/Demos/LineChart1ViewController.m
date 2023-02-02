@@ -65,7 +65,7 @@
     llXAxis.valueFont = [UIFont systemFontOfSize:10.f];
     
     //[_chartView.xAxis addLimitLine:llXAxis];
-    
+    /// 线段宽为第一个，空格宽为第二个。
     _chartView.xAxis.gridLineDashLengths = @[@10.0, @10.0];
     _chartView.xAxis.gridLineDashPhase = 0.f;
     

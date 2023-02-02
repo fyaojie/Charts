@@ -14,15 +14,19 @@ import Foundation
 open class BarChartDataEntry: ChartDataEntry
 {
     /// the values the stacked barchart holds
+    /// 堆叠的barchart持有的价值
     private var _yVals: [Double]?
     
     /// the ranges for the individual stack values - automatically calculated
+    /// 单个堆栈值的范围-自动计算
     private var _ranges: [Range]?
     
     /// the sum of all negative values this entry (if stacked) contains
+    /// 此条目（如果堆叠）包含的所有负值的总和
     private var _negativeSum: Double = 0.0
     
     /// the sum of all positive values this entry (if stacked) contains
+    /// 此条目（如果堆叠）包含的所有正值的总和
     private var _positiveSum: Double = 0.0
     
     public required init()

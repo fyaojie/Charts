@@ -1593,6 +1593,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     }
     
     /// is scaling enabled? (zooming in and out by gesture) for the chart (this does not affect dragging).
+    /// 是否启用缩放？（通过手势放大和缩小）（这不影响拖动）。
     @objc open func setScaleEnabled(_ enabled: Bool)
     {
         if _scaleXEnabled != enabled || _scaleYEnabled != enabled
@@ -1760,6 +1761,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     }
     
     /// flag that indicates if pinch-zoom is enabled. if true, both x and y axis can be scaled simultaneously with 2 fingers, if false, x and y axis can be scaled separately
+    /// 指示是否启用收缩缩放的标志。如果为真，则可以用两个手指同时缩放x轴和y轴；如果为假，则可以分别缩放x轴与y轴
     @objc open var pinchZoomEnabled: Bool
     {
         get

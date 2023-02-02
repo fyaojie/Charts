@@ -187,20 +187,27 @@ open class ChartBaseDataSet: NSObject, ChartDataSetProtocol, NSCopying
     // MARK: - Styling functions and accessors
     
     /// All the colors that are used for this DataSet.
+    /// 用于此数据集的所有颜色。
     /// Colors are reused as soon as the number of Entries the DataSet represents is higher than the size of the colors array.
+    /// 要DataSet表示的条目数大于颜色数组的大小，颜色就会被重用。
     open var colors = [NSUIColor]()
     
     /// List representing all colors that are used for drawing the actual values for this DataSet
+    /// 表示用于绘制此数据集的实际值的所有颜色的列表
     open var valueColors = [NSUIColor]()
 
     /// The label string that describes the DataSet.
+    /// 描述DataSet的标签字符串。
     open var label: String? = "DataSet"
     
     /// The axis this DataSet should be plotted against.
+    /// 应绘制此数据集的轴。
     open var axisDependency = YAxis.AxisDependency.left
     
     /// - Returns: The color at the given index of the DataSet's color array.
+    /// 数据集颜色数组的给定索引处的颜色。
     /// This prevents out-of-bounds by performing a modulus on the color index, so colours will repeat themselves.
+    /// 这通过对颜色索引执行模数来防止越界，因此颜色会重复。
     open func color(atIndex index: Int) -> NSUIColor
     {
         var index = index

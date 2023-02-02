@@ -30,6 +30,7 @@ open class BarChartData: BarLineScatterCandleBubbleChartData
     }
 
     /// The width of the bars on the x-axis, in values (not pixels)
+    /// x轴上条形图的宽度，单位为值（而不是像素）
     ///
     /// **default**: 0.85
     @objc open var barWidth = Double(0.85)
