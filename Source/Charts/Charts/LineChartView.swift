@@ -13,6 +13,7 @@ import Foundation
 import CoreGraphics
 
 /// Chart that draws lines, surfaces, circles, ...
+/// 绘制线条、曲面、圆等的图表。。。
 open class LineChartView: BarLineChartViewBase, LineChartDataProvider
 {
     internal override func initialize()

@@ -19,6 +19,7 @@ import AppKit
 #endif
 
 /// Base-class of LineChart, BarChart, ScatterChart and CandleStickChart.
+/// LineChart、BarChart、ScatterChart和CandleStickChart的基类。
 open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartDataProvider, NSUIGestureRecognizerDelegate
 {
     /// the maximum number of entries to which values will be drawn

@@ -48,9 +48,11 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     // MARK: - Properties
     
     /// The default IValueFormatter that has been determined by the chart considering the provided minimum and maximum values.
+    /// 默认IValueFormatter，由图表根据提供的最小值和最大值确定。
     internal lazy var defaultValueFormatter: ValueFormatter = DefaultValueFormatter(decimals: 0)
 
     /// object that holds all data that was originally set for the chart, before it was modified or any filtering algorithms had been applied
+    /// 对象，该对象保存在修改图表或应用任何筛选算法之前为图表最初设置的所有数据
     @objc open var data: ChartData?
         {
         didSet
@@ -59,7 +61,8 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
 
             guard let data = data else { return }
 
-            // calculate how many digits are needed
+            /// calculate how many digits are needed
+            /// 计算需要多少位数
             setupDefaultFormatter(min: data.yMin, max: data.yMax)
 
             for set in data where set.valueFormatter is DefaultValueFormatter
@@ -67,51 +70,65 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
                 set.valueFormatter = defaultValueFormatter
             }
 
-            // let the chart know there is new data
+            /// let the chart know there is new data
+            /// 让图表知道有新数据
             notifyDataSetChanged()
         }
     }
 
     /// If set to true, chart continues to scroll after touch up
+    /// 如果设置为true，图表在润色后继续滚动
     @objc open var dragDecelerationEnabled = true
 
     /// The object representing the labels on the x-axis
+    /// 表示x轴上标签的对象
     @objc open internal(set) lazy var xAxis = XAxis()
     
     /// The `Description` object of the chart.
+    /// 图表的“描述”对象。
     @objc open lazy var chartDescription = Description()
 
     /// The legend object containing all data associated with the legend
+    /// 包含与图例关联的所有数据的图例对象
     @objc open internal(set) lazy var legend = Legend()
 
     /// delegate to receive chart events
+    /// 委托接收图表事件
     @objc open weak var delegate: ChartViewDelegate?
     
     /// text that is displayed when the chart is empty
+    /// 图表为空时显示的文本
     @objc open var noDataText = "No chart data available."
     
     /// Font to be used for the no data text.
+    /// 用于无数据文本的字体。
     @objc open var noDataFont = NSUIFont.systemFont(ofSize: 12)
     
     /// color of the no data text
+    /// 无数据文本的颜色
     @objc open var noDataTextColor: NSUIColor = .labelOrBlack
 
     /// alignment of the no data text
+    /// 无数据文本的对齐方式
     @objc open var noDataTextAlignment: TextAlignment = .left
 
     /// The renderer object responsible for rendering / drawing the Legend.
+    /// 负责渲染/绘制图例的渲染器对象。
     @objc open lazy var legendRenderer = LegendRenderer(viewPortHandler: viewPortHandler, legend: legend)
 
     /// object responsible for rendering the data
+    /// 负责呈现数据的对象
     @objc open var renderer: DataRenderer?
     
     @objc open var highlighter: Highlighter?
 
     /// The ViewPortHandler of the chart that is responsible for the
     /// content area of the chart and its offsets and dimensions.
+    /// 图表的ViewPortHandler，负责图表的内容区域及其偏移量和维度。
     @objc open internal(set) lazy var viewPortHandler = ViewPortHandler(width: bounds.size.width, height: bounds.size.height)
 
     /// The animator responsible for animating chart values.
+    /// 负责制作图表值动画的动画师。
     @objc open internal(set) lazy var chartAnimator: Animator = {
         let animator = Animator()
         animator.delegate = self
@@ -119,32 +136,41 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     }()
 
     /// flag that indicates if offsets calculation has already been done or not
+    /// 指示偏移量计算是否已完成的标志
     private var offsetsCalculated = false
 
     /// The array of currently highlighted values. This might an empty if nothing is highlighted.
+    /// 当前高亮显示的值的数组。如果没有突出显示任何内容，则可能为空。
     @objc open internal(set) var highlighted = [Highlight]()
     
     /// `true` if drawing the marker is enabled when tapping on values
     /// (use the `marker` property to specify a marker)
+    /// `true`如果在点击值时启用绘制标记（使用“标记”属性指定标记）
     @objc open var drawMarkers = true
     
     /// - Returns: `true` if drawing the marker is enabled when tapping on values
     /// (use the `marker` property to specify a marker)
+    /// true`如果在点击值时启用绘制标记（使用“标记”属性指定标记）
     @objc open var isDrawMarkersEnabled: Bool { return drawMarkers }
     
     /// The marker that is displayed when a value is clicked on the chart
+    /// 在图表上单击值时显示的标记
     @objc open var marker: Marker?
 
     /// An extra offset to be appended to the viewport's top
+    /// 要附加到视口顶部的额外偏移
     @objc open var extraTopOffset: CGFloat = 0.0
     
     /// An extra offset to be appended to the viewport's right
+    /// 要附加到视口右侧的额外偏移
     @objc open var extraRightOffset: CGFloat = 0.0
     
     /// An extra offset to be appended to the viewport's bottom
+    /// 要附加到视口底部的额外偏移
     @objc open var extraBottomOffset: CGFloat = 0.0
     
     /// An extra offset to be appended to the viewport's left
+    /// 要附加到视口左侧的额外偏移
     @objc open var extraLeftOffset: CGFloat = 0.0
 
     @objc open func setExtraOffsets(left: CGFloat, top: CGFloat, right: CGFloat, bottom: CGFloat)
@@ -188,6 +214,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     // MARK: - ChartViewBase
     
     /// Clears the chart from all data (sets it to null) and refreshes it (by calling setNeedsDisplay()).
+    /// 从所有数据中清除图表（将其设置为空）并刷新图表（通过调用setNeedsDisplay（））。
     @objc open func clear()
     {
         data = nil
@@ -199,6 +226,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     }
     
     /// Removes all DataSets (and thereby Entries) from the chart. Does not set the data object to nil. Also refreshes the chart by calling setNeedsDisplay().
+    /// 从图表中删除所有数据集（以及条目）。不将数据对象设置为nil。还通过调用setNeedsDisplay（）刷新图表。
     @objc open func clearValues()
     {
         data?.clearValues()
@@ -206,34 +234,41 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     }
 
     /// - Returns: `true` if the chart is empty (meaning it's data object is either null or contains no entries).
+    /// `true`如果图表为空（意味着它的数据对象为空或不包含条目）。
     @objc open func isEmpty() -> Bool
     {
         return data?.isEmpty ?? true
     }
     
     /// Lets the chart know its underlying data has changed and should perform all necessary recalculations.
+    /// 让图表知道其基础数据已更改，并应执行所有必要的重新计算。
     /// It is crucial that this method is called everytime data is changed dynamically. Not calling this method can lead to crashes or unexpected behaviour.
+    /// 每次动态更改数据时都调用此方法至关重要。不调用此方法可能会导致崩溃或意外行为。
     @objc open func notifyDataSetChanged()
     {
         fatalError("notifyDataSetChanged() cannot be called on ChartViewBase")
     }
     
     /// Calculates the offsets of the chart to the border depending on the position of an eventual legend or depending on the length of the y-axis and x-axis labels and their position
+    /// 根据最终图例的位置或y轴和x轴标签的长度及其位置，计算图表到边框的偏移量
     internal func calculateOffsets()
     {
         fatalError("calculateOffsets() cannot be called on ChartViewBase")
     }
     
     /// calcualtes the y-min and y-max value and the y-delta and x-delta value
+    /// 计算y-min和y-max值以及y-delta和x-delta值
     internal func calcMinMax()
     {
         fatalError("calcMinMax() cannot be called on ChartViewBase")
     }
     
     /// calculates the required number of digits for the values that might be drawn in the chart (if enabled), and creates the default value formatter
+    /// 计算图表中可能绘制的值所需的位数（如果启用），并创建默认值格式器
     internal func setupDefaultFormatter(min: Double, max: Double)
     {
-        // check if a custom formatter is set or not
+        /// check if a custom formatter is set or not
+        /// 检查是否设置了自定义格式化程序
         var reference = 0.0
         
         if let data = data , data.entryCount >= 2
@@ -248,7 +283,8 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
         if let formatter = defaultValueFormatter as? DefaultValueFormatter
         {
-            // setup the formatter with a new number of digits
+            /// setup the formatter with a new number of digits
+            /// 使用新的位数设置格式化程序
             let digits = reference.decimalPlaces
             formatter.decimals = digits
         }

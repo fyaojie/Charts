@@ -38,6 +38,7 @@ open class ChartBaseDataSet: NSObject, ChartDataSetProtocol, NSCopying
     // MARK: - Data functions and accessors
     
     /// Use this method to tell the data set that the underlying data has changed
+    /// 使用此方法告诉数据集基础数据已更改
     open func notifyDataSetChanged()
     {
         calcMinMax()

@@ -64,7 +64,9 @@ open class ChartData: NSObject, ExpressibleByArrayLiteral
     }
 
     /// Call this method to let the ChartData know that the underlying data has changed.
+    /// 调用此方法以让ChartData知道基础数据已更改
     /// Calling this performs all necessary recalculations needed when the contained data has changed.
+    /// 当包含的数据发生更改时，调用此函数将执行所有必要的重新计算。
     @objc open func notifyDataChanged()
     {
         calcMinMax()
@@ -414,6 +416,7 @@ open class ChartData: NSObject, ExpressibleByArrayLiteral
     }
     
     /// The total entry count across all DataSet objects this data object contains.
+    /// 此数据对象包含的所有DataSet对象的总条目计数。
     @objc open var entryCount: Int
     {
         return reduce(0) { return $0 + $1.entryCount }

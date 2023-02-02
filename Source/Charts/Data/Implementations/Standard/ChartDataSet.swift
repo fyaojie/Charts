@@ -71,15 +71,19 @@ open class ChartDataSet: ChartBaseDataSet
     }
 
     /// maximum y-value in the value array
+    /// 值数组中的最大y值
     internal var _yMax: Double = -Double.greatestFiniteMagnitude
     
     /// minimum y-value in the value array
+    /// 值数组中的最小y值
     internal var _yMin: Double = Double.greatestFiniteMagnitude
     
     /// maximum x-value in the value array
+    /// 值数组中的最大x值
     internal var _xMax: Double = -Double.greatestFiniteMagnitude
     
     /// minimum x-value in the value array
+    /// 值数组中的最小x值
     internal var _xMin: Double = Double.greatestFiniteMagnitude
     
     open override func calcMinMax()

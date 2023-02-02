@@ -13,6 +13,7 @@ import Foundation
 import CoreGraphics
 
 /// The ScatterChart. Draws dots, triangles, squares and custom shapes into the chartview.
+/// 散点图。在图表视图中绘制点、三角形、正方形和自定义形状。
 open class ScatterChartView: BarLineChartViewBase, ScatterChartDataProvider
 {
     open override func initialize()

@@ -17,6 +17,7 @@ import CoreGraphics
 #endif
 
 /// View that represents a pie chart. Draws cake like slices.
+/// 表示饼图的视图。绘制蛋糕状切片。
 open class PieChartView: PieRadarChartViewBase
 {
     /// rect object that represents the bounds of the piechart, needed for drawing the circle

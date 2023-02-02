@@ -13,6 +13,7 @@ import Foundation
 import CoreGraphics
 
 /// Financial chart type that draws candle-sticks.
+/// 绘制蜡烛棒的财务图表类型。
 open class CandleStickChartView: BarLineChartViewBase, CandleChartDataProvider
 {
     internal override func initialize()

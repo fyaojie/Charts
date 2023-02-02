@@ -14,7 +14,9 @@ import CoreGraphics
 
 
 /// Implementation of the RadarChart, a "spidernet"-like chart. It works best
+/// RadarChart的实现，一个类似“蜘蛛网”的图表。它工作得最好
 /// when displaying 5-10 entries per DataSet.
+/// 当每个数据集显示5-10个条目时。
 open class RadarChartView: PieRadarChartViewBase
 {
     /// width of the web lines that come from the center.
