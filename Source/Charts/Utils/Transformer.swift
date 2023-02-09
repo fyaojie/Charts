@@ -18,11 +18,11 @@ import CoreGraphics
 open class Transformer: NSObject
 {
     /// 矩阵将值映射到屏幕像素
-    internal var matrixValueToPx = CGAffineTransform.identity
+    internal var _matrixValueToPx = CGAffineTransform.identity
 
     /// matrix for handling the different offsets of the chart
     /// 用于处理图表不同偏移量的矩阵
-    internal var matrixOffset = CGAffineTransform.identity
+    internal var _matrixOffset = CGAffineTransform.identity
 
     internal var _viewPortHandler: ViewPortHandler
 
@@ -49,7 +49,7 @@ open class Transformer: NSObject
 
         /// setup all matrices
         /// 设置所有矩阵
-        matrixValueToPx = CGAffineTransform.identity
+        _matrixValueToPx = CGAffineTransform.identity
             .scaledBy(x: scaleX, y: -scaleY)
             .translatedBy(x: CGFloat(-chartXMin), y: CGFloat(-chartYMin))
     }
