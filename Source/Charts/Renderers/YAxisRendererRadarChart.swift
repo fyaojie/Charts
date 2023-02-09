@@ -49,7 +49,7 @@ open class YAxisRendererRadarChart: YAxisRenderer
         
         // Find out how much spacing (in yValue space) between axis values
         let rawInterval = range / Double(labelCount)
-        var interval = rawInterval.roundedToNextSignficant()
+        var interval = rawInterval.roundedToNextSignificant()
         
         // If granularity is enabled, then do not allow the interval to go below specified granularity.
         // This is used to avoid repeated values when rounding values for display.
@@ -59,7 +59,7 @@ open class YAxisRendererRadarChart: YAxisRenderer
         }
         
         // Normalize interval
-        let intervalMagnitude = pow(10.0, floor(log10(interval))).roundedToNextSignficant()
+        let intervalMagnitude = pow(10.0, floor(log10(interval))).roundedToNextSignificant()
         let intervalSigDigit = Int(interval / intervalMagnitude)
         
         if intervalSigDigit > 5

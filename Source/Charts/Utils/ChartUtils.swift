@@ -109,7 +109,7 @@ extension Double
             self != 0.0
             else { return 0 }
 
-        let i = self.roundedToNextSignficant()
+        let i = self.roundedToNextSignificant()
 
         guard
             !i.isInfinite,

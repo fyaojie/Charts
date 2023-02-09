@@ -12,6 +12,7 @@
 import Foundation
 
 /// Data object that encapsulates all data associated with a LineChart.
+/// 封装与LineChart关联的所有数据的数据对象。
 open class LineChartData: ChartData
 {
     public override init()

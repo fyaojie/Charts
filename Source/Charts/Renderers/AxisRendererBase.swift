@@ -104,9 +104,10 @@ open class AxisRendererBase: Renderer
             return
         }
         
-        // Find out how much spacing (in y value space) between axis values
+        /// Find out how much spacing (in y value space) between axis values
+        /// 找出轴值之间的间距（在y值空间中）
         let rawInterval = range / Double(labelCount)
-        var interval = rawInterval.roundedToNextSignficant()
+        var interval = rawInterval.roundedToNextSignificant()
         
         // If granularity is enabled, then do not allow the interval to go below specified granularity.
         // This is used to avoid repeated values when rounding values for display.
@@ -116,7 +117,7 @@ open class AxisRendererBase: Renderer
         }
         
         // Normalize interval
-        let intervalMagnitude = pow(10.0, Double(Int(log10(interval)))).roundedToNextSignficant()
+        let intervalMagnitude = pow(10.0, Double(Int(log10(interval)))).roundedToNextSignificant()
         let intervalSigDigit = Int(interval / intervalMagnitude)
         if intervalSigDigit > 5
         {
