@@ -36,6 +36,7 @@ open class XAxisRenderer: AxisRendererBase
         {
             // calculate the starting and entry point of the y-labels (depending on
             // zoom / contentrect bounds)
+            /// 计算y标签的起点和入口点（取决于缩放/内容矩形边界）
             if viewPortHandler.contentWidth > 10 && !viewPortHandler.isFullyZoomedOutX
             {
                 let p1 = transformer.valueForTouchPoint(CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentTop))
@@ -132,10 +133,13 @@ open class XAxisRenderer: AxisRendererBase
         
         context.saveGState()
         
+        /// 设置画布画笔线条颜色
         context.setStrokeColor(xAxis.axisLineColor.cgColor)
+        /// 设置线宽
         context.setLineWidth(xAxis.axisLineWidth)
         if xAxis.axisLineDashLengths != nil
         {
+            /// 设置虚线，phase是设置几段，lengths是设置每一个线段的长度和间隔
             context.setLineDash(phase: xAxis.axisLineDashPhase, lengths: xAxis.axisLineDashLengths)
         }
         else
@@ -151,6 +155,7 @@ open class XAxisRenderer: AxisRendererBase
             _axisLineSegmentsBuffer[0].y = viewPortHandler.contentTop
             _axisLineSegmentsBuffer[1].x = viewPortHandler.contentRight
             _axisLineSegmentsBuffer[1].y = viewPortHandler.contentTop
+            /// 绘制线段
             context.strokeLineSegments(between: _axisLineSegmentsBuffer)
         }
         
@@ -169,6 +174,7 @@ open class XAxisRenderer: AxisRendererBase
     }
     
     /// draws the x-labels on the specified y-position
+    /// 在指定的y位置绘制x标签
     @objc open func drawLabels(context: CGContext, pos: CGFloat, anchor: CGPoint)
     {
         guard
@@ -287,11 +293,14 @@ open class XAxisRenderer: AxisRendererBase
         
         context.saveGState()
         defer { context.restoreGState() }
+        /// 裁剪内容区域外
         context.clip(to: self.gridClippingRect)
         
+        /// 抗锯齿
         context.setShouldAntialias(xAxis.gridAntialiasEnabled)
         context.setStrokeColor(xAxis.gridColor.cgColor)
         context.setLineWidth(xAxis.gridLineWidth)
+        /// 设置线头的样式
         context.setLineCap(xAxis.gridLineCap)
         
         if xAxis.gridLineDashLengths != nil
@@ -309,6 +318,7 @@ open class XAxisRenderer: AxisRendererBase
         
         let entries = xAxis.entries
         
+        /// stride函数，为可变步长类型值的序列 by: 步长
         for i in stride(from: 0, to: entries.count, by: 1)
         {
             position.x = CGFloat(entries[i])

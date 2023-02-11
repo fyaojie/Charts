@@ -42,12 +42,15 @@ open class AxisBase: ComponentBase
     @objc open var drawAxisLineEnabled = true
     
     /// flag that indicates of the labels of this axis should be drawn or not
+    /// 指示是否应绘制此轴标签的标志
     @objc open var drawLabelsEnabled = true
     
     private var _centerAxisLabelsEnabled = false
 
     /// Centers the axis labels instead of drawing them at their original position.
+    /// 将轴标签居中，而不是在其原始位置绘制。
     /// This is useful especially for grouped BarChart.
+    /// 这对于分组条形图特别有用。
     @objc open var centerAxisLabelsEnabled: Bool
     {
         get { return _centerAxisLabelsEnabled && entryCount > 0 }
@@ -68,17 +71,21 @@ open class AxisBase: ComponentBase
     @objc open var drawLimitLinesBehindDataEnabled = false
     
     /// Are the grid lines drawn behind the data or in front of the data?
+    /// 网格线是绘制在数据后面还是数据前面？
     ///
     /// **default**: true
     @objc open var drawGridLinesBehindDataEnabled = true
 
     /// the flag can be used to turn off the antialias for grid lines
+    /// 该标志可用于关闭网格线的抗锯齿
     @objc open var gridAntialiasEnabled = true
     
     /// the actual array of entries
+    /// 条目的实际数组
     @objc open var entries = [Double]()
     
     /// axis label entries only used for centered labels
+    /// 轴标签条目仅用于居中标签
     @objc open var centeredEntries = [Double]()
     
     /// the number of entries the legend contains
@@ -93,9 +100,13 @@ open class AxisBase: ComponentBase
     @objc open var decimals: Int = 0
     
     /// When true, axis labels are controlled by the `granularity` property.
+    /// 如果为true，则轴标签由“粒度”属性控制。
     /// When false, axis values could possibly be repeated.
+    /// 如果为false，轴值可能会重复。
     /// This could happen if two adjacent axis values are rounded to same value.
+    /// 如果两个相邻轴值舍入为相同值，则可能发生这种情况。
     /// If using granularity this could be avoided by having fewer axis values visible.
+    /// 如果使用粒度，则可以通过减少可见的轴值来避免这种情况。
     @objc open var granularityEnabled = false
     
     private var _granularity = Double(1.0)
@@ -129,6 +140,7 @@ open class AxisBase: ComponentBase
     }
     
     /// if true, the set number of y-labels will be forced
+    /// 如果为true，将强制设置y标签的数量
     @objc open var forceLabelsEnabled = false
     
     @objc open func getLongestLabel() -> String
@@ -149,6 +161,7 @@ open class AxisBase: ComponentBase
     }
     
     /// - Returns: The formatted label at the specified index. This will either use the auto-formatter or the custom formatter (if one is set).
+    /// 指定索引处的格式化标签。这将使用自动格式化程序或自定义格式化程序（如果已设置）。
     @objc open func getFormattedLabel(_ index: Int) -> String
     {
         if index < 0 || index >= entries.count
@@ -192,6 +205,7 @@ open class AxisBase: ComponentBase
     @objc open var isDrawLabelsEnabled: Bool { return drawLabelsEnabled }
     
     /// Are the LimitLines drawn behind the data or in front of the data?
+    /// 限制线是绘制在数据后面还是数据前面？
     /// 
     /// **default**: false
     @objc open var isDrawLimitLinesBehindDataEnabled: Bool { return drawLimitLinesBehindDataEnabled }
@@ -208,14 +222,18 @@ open class AxisBase: ComponentBase
     @objc open var spaceMax: Double = 0.0
     
     /// Flag indicating that the axis-min value has been customized
+    /// 指示已自定义轴最小值的标志
     internal var _customAxisMin: Bool = false
     
     /// Flag indicating that the axis-max value has been customized
     internal var _customAxisMax: Bool = false
     
     /// Do not touch this directly, instead, use axisMinimum.
+    /// 不要直接接触，而是使用轴Minimum
     /// This is automatically calculated to represent the real min value,
+    /// 这被自动计算以表示实际最小值，
     /// and is used when calculating the effective minimum.
+    /// 并且在计算有效最小值时使用
     internal var _axisMinimum = Double(0)
     
     /// Do not touch this directly, instead, use axisMaximum.
@@ -263,6 +281,7 @@ open class AxisBase: ComponentBase
     }
     
     /// `true` if focing the y-label count is enabled. Default: false
+    /// `如果启用了聚焦y标签计数，则为true。默认值：false
     @objc open var isForceLabelsEnabled: Bool { return forceLabelsEnabled }
     
     /// Adds a new ChartLimitLine to this axis.
@@ -285,6 +304,7 @@ open class AxisBase: ComponentBase
     }
     
     /// The LimitLines of this axis.
+    /// 此轴的限制线。
     @objc open var limitLines : [ChartLimitLine]
     {
         return _limitLines
@@ -343,13 +363,15 @@ open class AxisBase: ComponentBase
     }
     
     /// Calculates the minimum, maximum and range values of the YAxis with the given minimum and maximum values from the chart data.
+    /// 使用图表数据中给定的最小值和最大值，计算Y轴的最小值、最大值和范围值。
     ///
     /// - Parameters:
-    ///   - dataMin: the y-min value according to chart data
-    ///   - dataMax: the y-max value according to chart
+    ///   - dataMin: the y-min value according to chart data 根据图表数据的y-min值
+    ///   - dataMax: the y-max value according to chart 根据图表的y-max值
     @objc open func calculate(min dataMin: Double, max dataMax: Double)
     {
-        // if custom, use value as is, else use data value
+        /// if custom, use value as is, else use data value
+        /// 如果自定义，则按原样使用值，否则使用数据值
         var min = _customAxisMin ? _axisMinimum : (dataMin - spaceMin)
         var max = _customAxisMax ? _axisMaximum : (dataMax + spaceMax)
         

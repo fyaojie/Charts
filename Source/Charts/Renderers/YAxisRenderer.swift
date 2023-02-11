@@ -94,11 +94,12 @@ open class YAxisRenderer: AxisRendererBase
         }
         
         context.saveGState()
-        
+        /// 设置画布画笔线条颜色
         context.setStrokeColor(yAxis.axisLineColor.cgColor)
         context.setLineWidth(yAxis.axisLineWidth)
         if yAxis.axisLineDashLengths != nil
         {
+            /// 设置路径线条图案
             context.setLineDash(phase: yAxis.axisLineDashPhase, lengths: yAxis.axisLineDashLengths)
         }
         else

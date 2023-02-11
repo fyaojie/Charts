@@ -51,7 +51,9 @@ open class ChartData: NSObject
     }
     
     /// Call this method to let the ChartData know that the underlying data has changed.
+    /// 调用此方法以让ChartData知道基础数据已更改
     /// Calling this performs all necessary recalculations needed when the contained data has changed.
+    /// 当包含的数据发生更改时，调用此函数将执行所有必要的重新计算。
     @objc open func notifyDataChanged()
     {
         calcMinMax()
@@ -61,10 +63,12 @@ open class ChartData: NSObject
     {
         _dataSets.forEach { $0.calcMinMaxY(fromX: fromX, toX: toX) }
         // apply the new data
+        /// 应用新数据
         calcMinMax()
     }
     
     /// calc minimum and maximum y value over all datasets
+    /// 计算所有数据集的最小和最大y值
     @objc open func calcMinMax()
     {
         _yMax = -Double.greatestFiniteMagnitude
@@ -131,6 +135,7 @@ open class ChartData: NSObject
     }
     
     /// Adjusts the current minimum and maximum values based on the provided Entry object.
+    /// 根据提供的Entry对象调整当前的最小值和最大值。
     @objc open func calcMinMax(entry e: ChartDataEntry, axis: YAxis.AxisDependency)
     {
         if _yMax < e.y
@@ -180,6 +185,7 @@ open class ChartData: NSObject
     }
     
     /// Adjusts the minimum and maximum values based on the given DataSet.
+    /// 根据给定的DataSet调整最小值和最大值。
     @objc open func calcMinMax(dataSet d: IChartDataSet)
     {
         if _yMax < d.yMax
@@ -511,6 +517,7 @@ open class ChartData: NSObject
     }
     
     /// - Returns: The first DataSet from the datasets-array that has it's dependency on the left axis. Returns null if no DataSet with left dependency could be found.
+    /// 数据集数组中依赖于左轴的第一个数据集。如果找不到具有左依赖项的DataSet，则返回null。
     @objc open func getFirstLeft(dataSets: [IChartDataSet]) -> IChartDataSet?
     {
         return dataSets.first { $0.axisDependency == .left }

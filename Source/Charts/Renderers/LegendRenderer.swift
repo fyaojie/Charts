@@ -26,28 +26,34 @@ open class LegendRenderer: Renderer
     }
 
     /// Prepares the legend and calculates all needed forms, labels and colors.
+    /// 准备图例并计算所有需要的表格、标签和颜色。
     @objc open func computeLegend(data: ChartData)
     {
         guard let legend = legend else { return }
         
         if !legend.isLegendCustom
         {
+            /// 图例条目
             var entries: [LegendEntry] = []
             
             // loop for building up the colors and labels used in the legend
+            /// 用于构建图例中使用的颜色和标签的循环
             for i in 0..<data.dataSetCount
             {
+                /// 获取指定数据, 代表第几张图
                 guard let dataSet = data.getDataSetByIndex(i) else { continue }
                 
                 let clrs: [NSUIColor] = dataSet.colors
                 let entryCount = dataSet.entryCount
                 
                 // if we have a barchart with stacked bars
+                /// 如果我们有一个有叠条的barchart
                 if dataSet is IBarChartDataSet &&
-                    (dataSet as! IBarChartDataSet).isStacked
+                    (dataSet as! IBarChartDataSet).isStacked /// 条形图数据集
                 {
                     let bds = dataSet as! IBarChartDataSet
                     let sLabels = bds.stackLabels
+                    /// 共有最小条目数
                     let minEntries = min(clrs.count, bds.stackSize)
 
                     for j in 0..<minEntries
@@ -56,6 +62,7 @@ open class LegendRenderer: Renderer
                         if (sLabels.count > 0)
                         {
                             let labelIndex = j % minEntries
+                            /// indices 获取数组的索引区间
                             label = sLabels.indices.contains(labelIndex) ? sLabels[labelIndex] : nil
                         }
                         else
@@ -79,7 +86,7 @@ open class LegendRenderer: Renderer
                     if dataSet.label != nil
                     {
                         // add the legend description label
-                        
+                        /// 添加图例说明标签
                         entries.append(
                             LegendEntry(
                                 label: dataSet.label,
@@ -93,7 +100,7 @@ open class LegendRenderer: Renderer
                         )
                     }
                 }
-                else if dataSet is IPieChartDataSet
+                else if dataSet is IPieChartDataSet /// 饼图数据集
                 {
                     let pds = dataSet as! IPieChartDataSet
                     
@@ -115,7 +122,7 @@ open class LegendRenderer: Renderer
                     if dataSet.label != nil
                     {
                         // add the legend description label
-                        
+                        /// 添加图例说明标签
                         entries.append(
                             LegendEntry(
                                 label: dataSet.label,
@@ -130,7 +137,7 @@ open class LegendRenderer: Renderer
                     }
                 }
                 else if dataSet is ICandleChartDataSet &&
-                    (dataSet as! ICandleChartDataSet).decreasingColor != nil
+                    (dataSet as! ICandleChartDataSet).decreasingColor != nil /// 蜡烛图
                 {
                     let candleDataSet = dataSet as! ICandleChartDataSet
                     
@@ -166,12 +173,14 @@ open class LegendRenderer: Renderer
                         let label: String?
                         
                         // if multiple colors are set for a DataSet, group them
+                        /// 如果为DataSet设置了多种颜色，请将它们分组
                         if j < clrs.count - 1 && j < entryCount - 1
                         {
                             label = nil
                         }
                         else
                         { // add label to the last entry
+                            /// 将标签添加到最后一个条目
                             label = dataSet.label
                         }
                         
@@ -194,6 +203,7 @@ open class LegendRenderer: Renderer
         }
         
         // calculate all dimensions of the legend
+        /// 计算图例的所有尺寸
         legend.calculateDimensions(labelFont: legend.font, viewPortHandler: viewPortHandler)
     }
     

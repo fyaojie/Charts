@@ -86,6 +86,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     @objc open var chartDescription: Description?
         
     /// The legend object containing all data associated with the legend
+    /// 包含与图例关联的所有数据的图例对象
     internal var _legend: Legend!
     
     /// delegate to receive chart events
@@ -106,6 +107,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     internal var _legendRenderer: LegendRenderer!
     
     /// object responsible for rendering the data
+    /// 负责呈现数据的对象 渲染器
     @objc open var renderer: DataRenderer?
     
     @objc open var highlighter: IHighlighter?
@@ -117,6 +119,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     internal var _animator: Animator!
     
     /// flag that indicates if offsets calculation has already been done or not
+    /// 指示偏移量计算是否已完成的标志
     private var _offsetsCalculated = false
     
     /// array of Highlight objects that reference the highlighted slices in the chart
@@ -217,7 +220,8 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
                 return
             }
             
-            // calculate how many digits are needed
+            /// calculate how many digits are needed
+            /// 计算需要多少位数
             setupDefaultFormatter(min: _data.getYMin(), max: _data.getYMax())
             
             for set in _data.dataSets
@@ -228,7 +232,8 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
                 }
             }
             
-            // let the chart know there is new data
+            /// let the chart know there is new data
+            /// 让图表知道有新数据
             notifyDataSetChanged()
         }
     }
@@ -807,6 +812,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     }
     
     /// The renderer object responsible for rendering / drawing the Legend.
+    /// 负责渲染/绘制图例的渲染器对象。
     @objc open var legendRenderer: LegendRenderer!
     {
         return _legendRenderer

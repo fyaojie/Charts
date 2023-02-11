@@ -551,6 +551,7 @@ open class LineChartRenderer: LineRadarRenderer
         var rect = CGRect()
         
         // If we redraw the data, remove and repopulate accessible elements to update label values and frames
+        /// 如果我们重新绘制数据，请删除并重新填充可访问的元素以更新标签值和框架
         accessibleChartElements.removeAll()
         accessibilityOrderedElements = accessibilityCreateEmptyOrderedElements()
 

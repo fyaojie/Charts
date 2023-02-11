@@ -20,6 +20,7 @@ public protocol IBarChartDataSet: IBarLineScatterCandleBubbleChartDataSet
     // MARK: - Styling functions and accessors
     
     /// `true` if this DataSet is stacked (stacksize > 1) or not.
+    /// true`如果此DataSet已堆叠（stacksize>1）或未堆叠。
     var isStacked: Bool { get }
     
     /// The maximum number of bars that can be stacked upon another in this DataSet.
@@ -38,5 +39,6 @@ public protocol IBarChartDataSet: IBarLineScatterCandleBubbleChartDataSet
     var highlightAlpha: CGFloat { get set }
     
     /// array of labels used to describe the different values of the stacked bars
+    /// 用于描述堆叠条的不同值的标签阵列
     var stackLabels: [String] { get set }
 }

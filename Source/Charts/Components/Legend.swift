@@ -71,7 +71,9 @@ open class Legend: ComponentBase
     @objc open var entries = [LegendEntry]()
     
     /// Entries that will be appended to the end of the auto calculated entries after calculating the legend.
+    /// 计算图例后，将附加到自动计算条目末尾的条目。
     /// (if the legend has already been calculated, you will need to call notifyDataSetChanged() to let the changes take effect)
+    /// 如果图例已经计算，则需要调用notifyDataSetChanged（）以使更改生效）
     @objc open var extraEntries = [LegendEntry]()
     
     /// Are the legend labels/colors a custom value or auto calculated? If false, then it's auto, if true, then custom.
@@ -89,6 +91,7 @@ open class Legend: ComponentBase
     @objc open var orientation: Orientation = Orientation.horizontal
     
     /// Flag indicating whether the legend will draw inside the chart or outside
+    /// 指示图例是绘制在图表内部还是外部的标志
     @objc open var drawInside: Bool = false
     
     /// Flag indicating whether the legend will draw inside the chart or outside
@@ -203,6 +206,7 @@ open class Legend: ComponentBase
     /// **default**: 0.95 (95%)
     @objc open var maxSizePercent: CGFloat = 0.95
     
+    /// 计算尺寸
     @objc open func calculateDimensions(labelFont: NSUIFont, viewPortHandler: ViewPortHandler)
     {
         let maxEntrySize = getMaximumEntrySize(withFont: labelFont)
@@ -413,6 +417,7 @@ open class Legend: ComponentBase
     
     /// **default**: false (automatic legend)
     /// `true` if a custom legend entries has been set
+    /// `true`如果已设置自定义图例项
     @objc open var isLegendCustom: Bool
     {
         return _isLegendCustom

@@ -134,6 +134,7 @@ open class YAxis: AxisBase
     }
     
     /// `true` if this axis needs horizontal offset, `false` ifno offset is needed.
+    /// `true'如果此轴需要水平偏移，如果不需要偏移，则为'false'。
     @objc open var needsOffset: Bool
     {
         if isEnabled && isDrawLabelsEnabled && labelPosition == .outsideChart
@@ -151,10 +152,12 @@ open class YAxis: AxisBase
     open override func calculate(min dataMin: Double, max dataMax: Double)
     {
         // if custom, use value as is, else use data value
+        /// 如果自定义，则按原样使用值，否则使用数据值
         var min = _customAxisMin ? _axisMinimum : dataMin
         var max = _customAxisMax ? _axisMaximum : dataMax
         
         // Make sure max is greater than min
+        /// 确保最大值大于最小值
         // Discussion: https://github.com/danielgindi/Charts/pull/3650#discussion_r221409991
         if min > max
         {
@@ -172,9 +175,11 @@ open class YAxis: AxisBase
         }
         
         // temporary range (before calculations)
+        /// 临时范围（计算前）
         let range = abs(max - min)
         
         // in case all values are equal
+        /// 如果所有值相等
         if range == 0.0
         {
             max = max + 1.0
@@ -182,6 +187,7 @@ open class YAxis: AxisBase
         }
         
         // bottom-space only effects non-custom min
+        /// 底部空间仅影响非自定义最小值
         if !_customAxisMin
         {
             let bottomSpace = range * Double(spaceBottom)
@@ -189,6 +195,7 @@ open class YAxis: AxisBase
         }
         
         // top-space only effects non-custom max
+        /// 顶部空间仅影响非自定义最大值
         if !_customAxisMax
         {
             let topSpace = range * Double(spaceTop)
@@ -196,6 +203,7 @@ open class YAxis: AxisBase
         }
         
         // calc actual range
+        /// 计算实际范围
         axisRange = abs(_axisMaximum - _axisMinimum)
     }
     

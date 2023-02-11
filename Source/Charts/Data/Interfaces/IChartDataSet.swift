@@ -40,6 +40,7 @@ public protocol IChartDataSet
     var xMax: Double { get }
     
     /// The number of y-values this DataSet represents
+    /// 此数据集表示的y值的数量
     var entryCount: Int { get }
     
     /// - Throws: out of bounds
@@ -170,6 +171,7 @@ public protocol IChartDataSet
     var label: String? { get }
     
     /// The axis this DataSet should be plotted against.
+    /// 应绘制此数据集的轴。
     var axisDependency: YAxis.AxisDependency { get }
     
     /// List representing all colors that are used for drawing the actual values for this DataSet
@@ -199,6 +201,7 @@ public protocol IChartDataSet
     var valueFormatter: IValueFormatter? { get set }
     
     /// `true` if the valueFormatter object of this DataSet is null.
+    /// `true`如果此DataSet的valueFormatter对象为空。
     var needsFormatter: Bool { get }
     
     /// Sets/get a single color for value text.

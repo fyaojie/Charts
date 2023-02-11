@@ -14,6 +14,7 @@ import CoreGraphics
 
 
 /// This class encapsulates everything both Axis, Legend and LimitLines have in common
+/// 此类封装了Axis、Legend和LimitLines的所有共同点
 @objc(ChartComponentBase)
 open class ComponentBase: NSObject
 {

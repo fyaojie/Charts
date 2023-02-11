@@ -28,6 +28,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     internal var _maxVisibleCount = 100
     
     /// flag that indicates if auto scaling on the y axis is enabled
+    /// 指示是否启用y轴上的自动缩放的标志
     private var _autoScaleMinMaxEnabled = false
     
     private var _pinchZoomEnabled = false
@@ -45,10 +46,13 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     @objc open var borderLineWidth: CGFloat = 1.0
     
     /// flag indicating if the grid background should be drawn or not
+    /// 指示是否应绘制网格背景的标志
     @objc open var drawGridBackgroundEnabled = false
     
     /// When enabled, the borders rectangle will be rendered.
+    /// 启用后，将呈现边框矩形。
     /// If this is enabled, there is no point drawing the axis-lines of x- and y-axis.
+    /// 如果启用此选项，则没有点绘制x轴和y轴的轴线。
     @objc open var drawBordersEnabled = false
     
     /// When enabled, the values will be clipped to contentRect, otherwise they can bleed outside the content rect.
@@ -75,7 +79,8 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     @objc open internal(set) var rightAxis = YAxis(position: .right)
 
     /// The left Y axis renderer. This is a read-write property so you can set your own custom renderer here.
-    /// **default**: An instance of YAxisRenderer
+    /// 左Y轴渲染器。这是一个读写属性，因此您可以在此处设置自己的自定义渲染器。
+    /// **default**: An instance of YAxisRenderer YAxisRenderer的一个实例
     @objc open lazy var leftYAxisRenderer = YAxisRenderer(viewPortHandler: _viewPortHandler, yAxis: leftAxis, transformer: _leftAxisTransformer)
 
     /// The right Y axis renderer. This is a read-write property so you can set your own custom renderer here.
@@ -86,6 +91,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     internal var _rightAxisTransformer: Transformer!
     
     /// The X axis renderer. This is a read-write property so you can set your own custom renderer here.
+    /// X轴渲染器。这是一个读写属性，因此您可以在此处设置自己的自定义渲染器。
     /// **default**: An instance of XAxisRenderer
     @objc open lazy var xAxisRenderer = XAxisRenderer(viewPortHandler: _viewPortHandler, xAxis: _xAxis, transformer: _leftAxisTransformer)
     
@@ -97,6 +103,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     internal var _panGestureRecognizer: NSUIPanGestureRecognizer!
     
     /// flag that indicates if a custom viewport offset has been set
+    /// 指示是否已设置自定义视图端口偏移的标志
     private var _customViewPortEnabled = false
     
     public override init(frame: CGRect)
@@ -180,9 +187,10 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         guard let context = optionalContext else { return }
 
         // execute all drawing commands
+        /// 执行所有图形命令- 绘制边框和背景
         drawGridBackground(context: context)
         
-
+        /// 是否启用y轴上的自动缩放
         if _autoScaleMinMaxEnabled
         {
             autoScale()
@@ -202,12 +210,15 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         {
             xAxisRenderer.computeAxis(min: _xAxis._axisMinimum, max: _xAxis._axisMaximum, inverted: false)
         }
-        
+        /// 绘制x轴
         xAxisRenderer.renderAxisLine(context: context)
+        /// 绘制左轴
         leftYAxisRenderer.renderAxisLine(context: context)
+        /// 绘制右轴
         rightYAxisRenderer.renderAxisLine(context: context)
 
         // The renderers are responsible for clipping, to account for line-width center etc.
+        /// 渲染器负责裁剪，以说明线宽中心等。 绘制网格线
         if xAxis.drawGridLinesBehindDataEnabled
         {
             xAxisRenderer.renderGridLines(context: context)
@@ -215,6 +226,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             rightYAxisRenderer.renderGridLines(context: context)
         }
         
+        /// 绘制限制线
         if _xAxis.isEnabled && _xAxis.isDrawLimitLinesBehindDataEnabled
         {
             xAxisRenderer.renderLimitLines(context: context)
@@ -232,12 +244,14 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         
         context.saveGState()
         // make sure the data cannot be drawn outside the content-rect
+        /// 确保数据不能绘制在内容矩形之外
         if clipDataToContentEnabled {
             context.clip(to: _viewPortHandler.contentRect)
         }
         renderer.drawData(context: context)
         
         // The renderers are responsible for clipping, to account for line-width center etc.
+        /// 渲染器负责裁剪，以说明线宽中心等。
         if !xAxis.drawGridLinesBehindDataEnabled
         {
             xAxisRenderer.renderGridLines(context: context)
@@ -246,6 +260,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         }
         
         // if highlighting is enabled
+        /// 如果启用了高亮显示
         if (valuesToHighlight())
         {
             renderer.drawHighlighted(context: context, indices: _indicesToHighlight)
@@ -299,6 +314,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     private var _autoScaleLastHighestVisibleX: Double?
     
     /// Performs auto scaling of the axis by recalculating the minimum and maximum y-values based on the entries currently in view.
+    /// 通过基于当前视图中的条目重新计算最小和最大y值，执行轴的自动缩放。
     internal func autoScale()
     {
         guard let data = _data
@@ -309,7 +325,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         _xAxis.calculate(min: data.xMin, max: data.xMax)
         
         // calculate axis range (min / max) according to provided data
-        
+        /// 根据提供的数据计算轴范围（最小/最大）
         if leftAxis.isEnabled
         {
             leftAxis.calculate(min: data.getYMin(axis: .left), max: data.getYMax(axis: .left))
@@ -356,18 +372,21 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                 legendRenderer?.computeLegend(data: data)
             }
         }
-        
+        /// 计算偏移量
         calculateOffsets()
         
         setNeedsDisplay()
     }
     
+    /// 计算最小值最大值
     internal override func calcMinMax()
     {
-        // calculate / set x-axis range
+        /// calculate / set x-axis range
+        /// 计算/设置x轴范围
         _xAxis.calculate(min: _data?.xMin ?? 0.0, max: _data?.xMax ?? 0.0)
         
-        // calculate axis range (min / max) according to provided data
+        /// calculate axis range (min / max) according to provided data
+        /// 根据提供的数据计算轴范围（最小/最大）
         leftAxis.calculate(min: _data?.getYMin(axis: .left) ?? 0.0, max: _data?.getYMax(axis: .left) ?? 0.0)
         rightAxis.calculate(min: _data?.getYMin(axis: .right) ?? 0.0, max: _data?.getYMax(axis: .right) ?? 0.0)
     }
@@ -375,6 +394,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     internal func calculateLegendOffsets(offsetLeft: inout CGFloat, offsetTop: inout CGFloat, offsetRight: inout CGFloat, offsetBottom: inout CGFloat)
     {
         // setup offsets for legend
+        /// 图例的设置偏移
         if _legend !== nil && _legend.isEnabled && !_legend.drawInside
         {
             switch _legend.orientation
@@ -436,6 +456,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                                    offsetBottom: &offsetBottom)
             
             // offsets for y-labels
+            /// y标签的偏移
             if leftAxis.needsOffset
             {
                 offsetLeft += leftAxis.requiredSize().width
@@ -451,6 +472,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                 let xlabelheight = xAxis.labelRotatedHeight + xAxis.yOffset
                 
                 // offsets for x-labels
+                /// x标签的偏移
                 if xAxis.labelPosition == .bottom
                 {
                     offsetBottom += xlabelheight
@@ -471,6 +493,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             offsetBottom += self.extraBottomOffset
             offsetLeft += self.extraLeftOffset
 
+            /// 限制视图
             _viewPortHandler.restrainViewPort(
                 offsetLeft: max(self.minOffset, offsetLeft),
                 offsetTop: max(self.minOffset, offsetTop),
@@ -483,6 +506,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     }
     
     /// draws the grid background
+    /// 绘制网格背景
     internal func drawGridBackground(context: CGContext)
     {
         if drawGridBackgroundEnabled || drawBordersEnabled
@@ -490,6 +514,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             context.saveGState()
         }
         
+        /// 设置背景
         if drawGridBackgroundEnabled
         {
             // draw the grid background
@@ -497,6 +522,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             context.fill(_viewPortHandler.contentRect)
         }
         
+        /// 设置边框
         if drawBordersEnabled
         {
             context.setLineWidth(borderLineWidth)
@@ -1944,6 +1970,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     }
     
     /// The lowest x-index (value on the x-axis) that is still visible on he chart.
+    /// 图表上仍然可见的最低x指数（x轴上的值）
     open var lowestVisibleX: Double
     {
         var pt = CGPoint(
@@ -1956,6 +1983,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     }
     
     /// The highest x-index (value on the x-axis) that is still visible on the chart.
+    /// 图表上仍然可见的最高x索引（x轴上的值）。
     open var highestVisibleX: Double
     {
         var pt = CGPoint(
