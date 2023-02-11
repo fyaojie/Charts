@@ -15,7 +15,7 @@ import CoreGraphics
 @objc(BarLineScatterCandleBubbleChartRenderer)
 open class BarLineScatterCandleBubbleRenderer: DataRenderer
 {
-    internal var _xBounds = XBounds() // Reusable XBounds object
+    internal var _xBounds = XBounds() // Reusable XBounds object 可重用XBounds对象
     
     public override init(animator: Animator, viewPortHandler: ViewPortHandler)
     {
@@ -39,12 +39,14 @@ open class BarLineScatterCandleBubbleRenderer: DataRenderer
     }
     
     /// - Returns: `true` if the DataSet values should be drawn, `false` if not.
+    /// `如果应绘制DataSet值，则为true；如果不绘制，则为false。
     internal func shouldDrawValues(forDataSet set: IChartDataSet) -> Bool
     {
         return set.isVisible && (set.isDrawValuesEnabled || set.isDrawIconsEnabled)
     }
 
     /// Class representing the bounds of the current viewport in terms of indices in the values array of a DataSet.
+    /// 类，以DataSet的值数组中的索引表示当前视图端口的边界。
     open class XBounds
     {
         /// minimum visible entry index
@@ -100,11 +102,14 @@ extension BarLineScatterCandleBubbleRenderer.XBounds: RangeExpression {
     }
 }
 
+/// https://www.jianshu.com/p/4caa3c5cd4fc
+/// Sequence协议是集合类型的基础，Swift中Sequence协议为序列提供了迭代的能力。
 extension BarLineScatterCandleBubbleRenderer.XBounds: Sequence {
     public struct Iterator: IteratorProtocol {
         private var iterator: IndexingIterator<ClosedRange<Int>>
         
         fileprivate init(min: Int, max: Int) {
+            /// makeIterator:返回集合元素上的迭代器。
             self.iterator = (min...max).makeIterator()
         }
         

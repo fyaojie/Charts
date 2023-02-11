@@ -198,6 +198,7 @@ public protocol IChartDataSet
     var isHighlightEnabled: Bool { get }
     
     /// Custom formatter that is used instead of the auto-formatter if set
+    /// 如果已设置，则使用自定义格式化程序而不是自动格式化程序
     var valueFormatter: IValueFormatter? { get set }
     
     /// `true` if the valueFormatter object of this DataSet is null.
@@ -213,6 +214,7 @@ public protocol IChartDataSet
     func valueTextColorAt(_ index: Int) -> NSUIColor
     
     /// the font for the value-text labels
+    /// 值文本标签的字体
     var valueFont: NSUIFont { get set }
     
     /// The form to draw for this dataset in the legend.

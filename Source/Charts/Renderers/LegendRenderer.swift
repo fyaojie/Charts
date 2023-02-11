@@ -291,7 +291,9 @@ open class LegendRenderer: Renderer
                     : -xoffset)
             
             // Horizontally layed out legends do the center offset on a line basis,
+            /// 水平布局的图例以直线为基础进行中心偏移，
             // So here we offset the vertical ones only.
+            /// 所以这里我们只偏移垂直方向。
             if orientation == .vertical
             {
                 if direction == .leftToRight
@@ -411,6 +413,7 @@ open class LegendRenderer: Renderer
         case .vertical:
             
             // contains the stacked legend size in pixels
+            /// 包含堆叠图例大小（以像素为单位）
             var stack = CGFloat(0.0)
             var wasStacked = false
             

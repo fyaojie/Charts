@@ -328,6 +328,7 @@ open class ChartData: NSObject
     }
     
     /// All DataSet objects this ChartData object holds.
+    /// 此ChartData对象包含的所有DataSet对象。
     @objc open var dataSets: [IChartDataSet]
     {
         get

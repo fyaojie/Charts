@@ -358,6 +358,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     }
     
     /// Draws the description text in the bottom right corner of the chart (per default)
+    /// 在图表的右下角绘制描述文本（默认情况下）
     internal func drawDescription(context: CGContext)
     {
         // check if description should be drawn
@@ -583,9 +584,11 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     // MARK: - Markers
 
     /// draws all MarkerViews on the highlighted positions
+    /// 在高亮显示的位置绘制所有标记视图
     internal func drawMarkers(context: CGContext)
     {
         // if there is no marker view or drawing marker is disabled
+        /// 如果没有标记视图或图形标记被禁用
         guard
             let marker = marker
             , isDrawMarkersEnabled &&

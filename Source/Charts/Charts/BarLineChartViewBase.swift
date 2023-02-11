@@ -56,6 +56,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     @objc open var drawBordersEnabled = false
     
     /// When enabled, the values will be clipped to contentRect, otherwise they can bleed outside the content rect.
+    /// 启用后，值将被剪切到contentRect，否则它们会溢出到contentRect之外。
     @objc open var clipValuesToContentEnabled: Bool = false
 
     /// When disabled, the data and/or highlights will not be clipped to contentRect. Disabling this option can
@@ -268,6 +269,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         
         context.restoreGState()
         
+        /// 绘制附加信息
         renderer.drawExtras(context: context)
         
         if _xAxis.isEnabled && !_xAxis.isDrawLimitLinesBehindDataEnabled
@@ -285,6 +287,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             rightYAxisRenderer.renderLimitLines(context: context)
         }
         
+        /// 绘制轴标签(例如:0 10 20 30)
         xAxisRenderer.renderAxisLabels(context: context)
         leftYAxisRenderer.renderAxisLabels(context: context)
         rightYAxisRenderer.renderAxisLabels(context: context)
@@ -300,13 +303,17 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         }
         else
         {
+            /// 绘制值以及icon
             renderer.drawValues(context: context)
         }
 
+        /// 绘制图例
         _legendRenderer.renderLegend(context: context)
 
+        /// 绘制描述文本
         drawDescription(context: context)
         
+        /// 绘制弹框
         drawMarkers(context: context)
     }
     

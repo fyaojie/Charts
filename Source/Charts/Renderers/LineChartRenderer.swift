@@ -451,6 +451,7 @@ open class LineChartRenderer: LineRadarRenderer
             let lineData = dataProvider.lineData
             else { return }
 
+        /// 是否允许绘制值
         if isDrawingValuesAllowed(dataProvider: dataProvider)
         {
             let dataSets = lineData.dataSets
@@ -476,6 +477,7 @@ open class LineChartRenderer: LineRadarRenderer
                 let iconsOffset = dataSet.iconsOffset
                 
                 // make sure the values do not interfear with the circles
+                /// 确保这些值不与圆圈相冲突
                 var valOffset = Int(dataSet.circleRadius * 1.75)
                 
                 if !dataSet.isDrawCirclesEnabled
@@ -536,6 +538,7 @@ open class LineChartRenderer: LineRadarRenderer
         drawCircles(context: context)
     }
     
+    /// 绘制圆
     private func drawCircles(context: CGContext)
     {
         guard
@@ -556,6 +559,7 @@ open class LineChartRenderer: LineRadarRenderer
         accessibilityOrderedElements = accessibilityCreateEmptyOrderedElements()
 
         // Make the chart header the first element in the accessible elements array
+        /// 使图表标题成为可访问元素数组中的第一个元素
         if let chart = dataProvider as? LineChartView {
             let element = createAccessibleHeader(usingChart: chart,
                                                  andData: lineData,
@@ -567,6 +571,7 @@ open class LineChartRenderer: LineRadarRenderer
 
         for i in 0 ..< dataSets.count
         {
+            /// 获取对应的线
             guard let dataSet = lineData.getDataSetByIndex(i) as? ILineChartDataSet else { continue }
             
             if !dataSet.isVisible || dataSet.entryCount == 0
@@ -581,12 +586,15 @@ open class LineChartRenderer: LineRadarRenderer
             
             let circleRadius = dataSet.circleRadius
             let circleDiameter = circleRadius * 2.0
+            /// 圆孔半径
             let circleHoleRadius = dataSet.circleHoleRadius
             let circleHoleDiameter = circleHoleRadius * 2.0
             
+            /// 如果需要绘制圆孔并存在
             let drawCircleHole = dataSet.isDrawCircleHoleEnabled &&
                 circleHoleRadius < circleRadius &&
                 circleHoleRadius > 0.0
+            /// 绘制透明圆孔
             let drawTransparentCircleHole = drawCircleHole &&
                 (dataSet.circleHoleColor == nil ||
                     dataSet.circleHoleColor == NSUIColor.clear)
@@ -605,6 +613,7 @@ open class LineChartRenderer: LineRadarRenderer
                 }
                 
                 // make sure the circles don't do shitty things outside bounds
+                /// 确保圆圈不在界外做蠢事
                 if (!viewPortHandler.isInBoundsLeft(pt.x) || !viewPortHandler.isInBoundsY(pt.y))
                 {
                     continue
@@ -612,19 +621,23 @@ open class LineChartRenderer: LineRadarRenderer
                 
                 
                 // Skip Circles and Accessibility if not enabled,
+                /// 跳过圆圈和辅助功能（如果未启用）
                 // reduces CPU significantly if not needed
+                /// 如果不需要，可显著减少CPU
                 if !dataSet.isDrawCirclesEnabled
                 {
                     continue
                 }
                 
                 // Accessibility element geometry
+                /// 可访问性元素几何
                 let scaleFactor: CGFloat = 3
                 let accessibilityRect = CGRect(x: pt.x - (scaleFactor * circleRadius),
                                                y: pt.y - (scaleFactor * circleRadius),
                                                width: scaleFactor * circleDiameter,
                                                height: scaleFactor * circleDiameter)
                 // Create and append the corresponding accessibility element to accessibilityOrderedElements
+                /// 创建相应的可访问性元素并将其附加到accessibilityOrderedElements
                 if let chart = dataProvider as? LineChartView
                 {
                     let element = createAccessibleElement(withIndex: j,
@@ -645,13 +658,16 @@ open class LineChartRenderer: LineRadarRenderer
                 rect.size.width = circleDiameter
                 rect.size.height = circleDiameter
 
+                /// 绘制透明圆孔
                 if drawTransparentCircleHole
                 {
                     // Begin path for circle with hole
+                    /// 带孔圆的起始路径
                     context.beginPath()
                     context.addEllipse(in: rect)
                     
                     // Cut hole in path
+                    /// 在路径中切割孔
                     rect.origin.x = pt.x - circleHoleRadius
                     rect.origin.y = pt.y - circleHoleRadius
                     rect.size.width = circleHoleDiameter
@@ -659,6 +675,7 @@ open class LineChartRenderer: LineRadarRenderer
                     context.addEllipse(in: rect)
                     
                     // Fill in-between
+                    /// 在中间进行填充
                     context.fillPath(using: .evenOdd)
                 }
                 else
@@ -670,6 +687,7 @@ open class LineChartRenderer: LineRadarRenderer
                         context.setFillColor(dataSet.circleHoleColor!.cgColor)
                      
                         // The hole rect
+                        /// 孔矩形
                         rect.origin.x = pt.x - circleHoleRadius
                         rect.origin.y = pt.y - circleHoleRadius
                         rect.size.width = circleHoleDiameter
@@ -684,6 +702,7 @@ open class LineChartRenderer: LineRadarRenderer
         context.restoreGState()
 
         // Merge nested ordered arrays into the single accessibleChartElements.
+        /// 将嵌套的有序数组合并到单个可访问的ChartElement中。
         accessibleChartElements.append(contentsOf: accessibilityOrderedElements.flatMap { $0 } )
         accessibilityPostLayoutChangedNotification()
     }
