@@ -13,6 +13,7 @@ import Foundation
 import CoreGraphics
 
 /// This chart class allows the combination of lines, bars, scatter and candle data all displayed in one chart area.
+/// 此图表类允许将线条、条形图、散点图和蜡烛数据全部显示在一个图表区域中。
 open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
 {
     /// the fill-formatter used for determining the position of the fill-line

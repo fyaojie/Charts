@@ -21,6 +21,7 @@ import Cocoa
 #endif
 
 /// Base-class of LineChart, BarChart, ScatterChart and CandleStickChart.
+/// LineChart、BarChart、ScatterChart和CandleStickChart的基类。
 open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartDataProvider, NSUIGestureRecognizerDelegate
 {
     /// the maximum number of entries to which values will be drawn
@@ -62,6 +63,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// When disabled, the data and/or highlights will not be clipped to contentRect. Disabling this option can
     /// be useful, when the data lies fully within the content rect, but is drawn in such a way (such as thick lines)
     /// that there is unwanted clipping.
+    /// 禁用时，数据和/或突出显示将不会剪切到contentRect。如果数据完全位于内容矩形内，但绘制的方式（如粗线）不需要剪裁，则禁用此选项可能很有用。
     @objc open var clipDataToContentEnabled: Bool = true
 
     /// Sets the minimum offset (padding) around the chart, defaults to 10

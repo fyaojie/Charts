@@ -19,6 +19,7 @@ import AppKit
 
 
 /// Base class of PieChartView and RadarChartView.
+/// PieChartView和RadarChartView的基类。
 open class PieRadarChartViewBase: ChartViewBase
 {
     /// holds the normalized version of the current rotation angle of the chart

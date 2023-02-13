@@ -60,6 +60,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     }
     
     /// The default IValueFormatter that has been determined by the chart considering the provided minimum and maximum values.
+    /// 默认值格式设置器，由图表根据提供的最小值和最大值确定。
     internal var _defaultValueFormatter: IValueFormatter? = DefaultValueFormatter(decimals: 0)
     
     /// object that holds all data that was originally set for the chart, before it was modified or any filtering algorithms had been applied
@@ -79,10 +80,13 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     internal var _drawUnitInChart = false
     
     /// The object representing the labels on the x-axis
+    /// 表示x轴上标签的对象
     internal var _xAxis: XAxis!
     
     /// The `Description` object of the chart.
+    /// 图表的“描述”对象。
     /// This should have been called just "description", but
+    /// 这应该被称为“描述”，但是
     @objc open var chartDescription: Description?
         
     /// The legend object containing all data associated with the legend
@@ -291,6 +295,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     }
     
     /// calculates the required number of digits for the values that might be drawn in the chart (if enabled), and creates the default value formatter
+    /// 计算图表中可能绘制的值所需的位数（如果启用），并创建默认值格式器
     internal func setupDefaultFormatter(min: Double, max: Double)
     {
         // check if a custom formatter is set or not
@@ -923,9 +928,11 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
                 
                 // This may cause the chart view to mutate properties affecting the view port -- lets do this
                 // before we try to run any pending jobs on the view port itself
+                /// 这可能会导致图表视图改变影响视图端口的财产——在尝试在视图端口本身上运行任何挂起的作业之前，让我们先这样做
                 notifyDataSetChanged()
 
                 // Finish any pending viewport changes
+                /// 完成所有挂起的视口更改
                 while (!_viewportJobs.isEmpty)
                 {
                     let job = _viewportJobs.remove(at: 0)

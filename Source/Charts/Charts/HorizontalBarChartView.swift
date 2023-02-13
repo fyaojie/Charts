@@ -13,6 +13,7 @@ import Foundation
 import CoreGraphics
 
 /// BarChart with horizontal bar orientation. In this implementation, x- and y-axis are switched.
+/// 具有水平条形图方向的条形图。在此实现中，x轴和y轴被切换。
 open class HorizontalBarChartView: BarChartView
 {
     internal override func initialize()
