@@ -20,6 +20,7 @@ public protocol IRadarChartDataSet: ILineRadarChartDataSet
     // MARK: - Styling functions and accessors
     
     /// flag indicating whether highlight circle should be drawn or not
+    /// 指示是否应绘制高光圆的标志
     var drawHighlightCircleEnabled: Bool { get set }
     
     var isDrawHighlightCircleEnabled: Bool { get }

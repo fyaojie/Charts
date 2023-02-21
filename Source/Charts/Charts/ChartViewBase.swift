@@ -54,6 +54,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// - Returns: The object representing all x-labels, this method can be used to
     /// acquire the XAxis object and modify it (e.g. change the position of the
     /// labels)
+    /// 表示所有x标签的对象，此方法可用于获取x轴对象并对其进行修改（例如更改标签的位置）
     @objc open var xAxis: XAxis
     {
         return _xAxis
@@ -64,6 +65,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     internal var _defaultValueFormatter: IValueFormatter? = DefaultValueFormatter(decimals: 0)
     
     /// object that holds all data that was originally set for the chart, before it was modified or any filtering algorithms had been applied
+    /// 对象，该对象保存在修改图表或应用任何筛选算法之前为图表最初设置的所有数据
     internal var _data: ChartData?
     
     /// Flag that indicates if highlighting per tap (touch) is enabled
@@ -127,6 +129,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     private var _offsetsCalculated = false
     
     /// array of Highlight objects that reference the highlighted slices in the chart
+    /// 引用图表中突出显示切片的突出显示对象数组
     internal var _indicesToHighlight = [Highlight]()
     
     /// `true` if drawing the marker is enabled when tapping on values
@@ -138,6 +141,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     @objc open var isDrawMarkersEnabled: Bool { return drawMarkers }
     
     /// The marker that is displayed when a value is clicked on the chart
+    /// 在图表上单击值时显示的标记
     @objc open var marker: IMarker?
     
     private var _interceptTouchEvents = false
