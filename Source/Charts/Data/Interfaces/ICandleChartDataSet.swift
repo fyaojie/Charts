@@ -24,7 +24,9 @@ public protocol ICandleChartDataSet: ILineScatterCandleRadarChartDataSet
     var barSpace: CGFloat { get set }
     
     /// should the candle bars show?
+    /// 蜡烛条应该出现吗？
     /// when false, only "ticks" will show
+    /// 如果为false，则仅显示“勾号”
     ///
     /// **default**: true
     var showCandleBar: Bool { get set }
