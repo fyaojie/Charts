@@ -14,7 +14,9 @@ import CoreGraphics
 
 
 /// The limit line is an additional feature for all Line, Bar and ScatterCharts.
+/// 限制线是所有折线图、条形图和散点图的附加功能。
 /// It allows the displaying of an additional line in the chart that marks a certain maximum / limit on the specified axis (x- or y-axis).
+/// 它允许在图表中显示一条额外的线，该线标记指定轴（x轴或y轴）上的某个最大值/限制。
 open class ChartLimitLine: ComponentBase
 {
     @objc(ChartLimitLabelPosition)
@@ -27,6 +29,7 @@ open class ChartLimitLine: ComponentBase
     }
     
     /// limit / maximum (the y-value or xIndex)
+    /// 极限/最大值（y值或xIndex）
     @objc open var limit = Double(0.0)
     
     private var _lineWidth = CGFloat(2.0)
@@ -60,6 +63,7 @@ open class ChartLimitLine: ComponentBase
     }
     
     /// set the line width of the chart (min = 0.2, max = 12); default 2
+    /// 设置图表的线宽（min=0.2，max=12）；默认值2
     @objc open var lineWidth: CGFloat
     {
         get

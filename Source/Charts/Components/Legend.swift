@@ -18,22 +18,27 @@ open class Legend: ComponentBase
     @objc(ChartLegendForm)
     public enum Form: Int
     {
-        /// Avoid drawing a form
+        /// Avoid drawing a form 避免绘制表单
         case none
         
         /// Do not draw the a form, but leave space for it
+        /// 不要绘制表单，但要为其留出空间
         case empty
         
         /// Use default (default dataset's form to the legend's form)
+        /// 使用默认值（默认数据集的形式为图例的形式）
         case `default`
         
         /// Draw a square
+        /// 画一个正方形
         case square
         
         /// Draw a circle
+        /// 绘制一个圆
         case circle
         
         /// Draw a horizontal line
+        /// 绘制水平线
         case line
     }
     
@@ -68,6 +73,7 @@ open class Legend: ComponentBase
     }
     
     /// The legend entries array
+    /// 图例条目数组
     @objc open var entries = [LegendEntry]()
     
     /// Entries that will be appended to the end of the auto calculated entries after calculating the legend.
@@ -77,17 +83,20 @@ open class Legend: ComponentBase
     @objc open var extraEntries = [LegendEntry]()
     
     /// Are the legend labels/colors a custom value or auto calculated? If false, then it's auto, if true, then custom.
-    /// 
+    /// 图例标签/颜色是自定义值还是自动计算的？如果为假，则为自动，如果为真，则为自定义。
     /// **default**: false (automatic legend)
     private var _isLegendCustom = false
 
     /// The horizontal alignment of the legend
+    /// 图例的水平对齐方式
     @objc open var horizontalAlignment: HorizontalAlignment = HorizontalAlignment.left
     
     /// The vertical alignment of the legend
+    /// 图例的垂直对齐方式
     @objc open var verticalAlignment: VerticalAlignment = VerticalAlignment.bottom
     
     /// The orientation of the legend
+    /// 图例的方向
     @objc open var orientation: Orientation = Orientation.horizontal
     
     /// Flag indicating whether the legend will draw inside the chart or outside
@@ -95,31 +104,38 @@ open class Legend: ComponentBase
     @objc open var drawInside: Bool = false
     
     /// Flag indicating whether the legend will draw inside the chart or outside
+    /// 指示图例是绘制在图表内部还是外部的标志
     @objc open var isDrawInsideEnabled: Bool { return drawInside }
     
     /// The text direction of the legend
+    /// 图例的文本方向
     @objc open var direction: Direction = Direction.leftToRight
 
     @objc open var font: NSUIFont = NSUIFont.systemFont(ofSize: 10.0)
     @objc open var textColor = NSUIColor.labelOrBlack
 
     /// The form/shape of the legend forms
+    /// 图例形式/形状
     @objc open var form = Form.square
     
     /// The size of the legend forms
+    /// 图例形式的大小
     @objc open var formSize = CGFloat(8.0)
     
     /// The line width for forms that consist of lines
+    /// 由线条组成的表单的线宽
     @objc open var formLineWidth = CGFloat(3.0)
     
     /// Line dash configuration for shapes that consist of lines.
-    ///
+    /// 由线组成的形状的虚线配置。
     /// This is how much (in pixels) into the dash pattern are we starting from.
+    /// 这是我们从虚线模式开始的数量（以像素为单位）。
     @objc open var formLineDashPhase: CGFloat = 0.0
     
     /// Line dash configuration for shapes that consist of lines.
-    ///
+    /// 由线组成的形状的虚线配置。
     /// This is the actual dash pattern.
+    /// 这是实际的虚线图案。
     /// I.e. [2, 3] will paint [--   --   ]
     /// [1, 3, 4, 2] will paint [-   ----  -   ----  ]
     @objc open var formLineDashLengths: [CGFloat]?
