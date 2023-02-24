@@ -12,7 +12,7 @@
 import Foundation
 import CoreGraphics
 
-/// Base class for all axes
+/// Base class for all axes 所有轴的基类
 @objc(ChartAxisBase)
 open class AxisBase: ComponentBase
 {
@@ -22,6 +22,7 @@ open class AxisBase: ComponentBase
     }
     
     /// Custom formatter that is used instead of the auto-formatter if set
+    /// 如果已设置，则使用自定义格式化程序而不是自动格式化程序
     private var _axisValueFormatter: IAxisValueFormatter?
     
     @objc open var labelFont = NSUIFont.systemFont(ofSize: 10.0)
@@ -63,10 +64,11 @@ open class AxisBase: ComponentBase
     }
 
     /// array of limitlines that can be set for the axis
+    /// 可以为轴设置的限制线阵列
     private var _limitLines = [ChartLimitLine]()
     
     /// Are the LimitLines drawn behind the data or in front of the data?
-    ///
+    /// 限制线是绘制在数据后面还是数据前面？
     /// **default**: false
     @objc open var drawLimitLinesBehindDataEnabled = false
     
@@ -89,14 +91,16 @@ open class AxisBase: ComponentBase
     @objc open var centeredEntries = [Double]()
     
     /// the number of entries the legend contains
+    /// 图例包含的条目数
     @objc open var entryCount: Int { return entries.count }
     
     /// the number of label entries the axis should have
-    ///
+    /// 轴应具有的标签条目数
     /// **default**: 6
     private var _labelCount = Int(6)
     
     /// the number of decimal digits to use (for the default formatter
+    /// 要使用的小数位数（用于默认格式化程序
     @objc open var decimals: Int = 0
     
     /// When true, axis labels are controlled by the `granularity` property.
@@ -112,8 +116,9 @@ open class AxisBase: ComponentBase
     private var _granularity = Double(1.0)
     
     /// The minimum interval between axis values.
+    /// 轴值之间的最小间隔。
     /// This can be used to avoid label duplicating when zooming in.
-    ///
+    /// 这可用于在放大时避免标签复制。
     /// **default**: 1.0
     @objc open var granularity: Double
     {
@@ -125,12 +130,14 @@ open class AxisBase: ComponentBase
         {
             _granularity = newValue
             
-            // set this to `true` if it was disabled, as it makes no sense to set this property with granularity disabled
+            /// set this to `true` if it was disabled, as it makes no sense to set this property with granularity disabled
+            /// 如果该属性已禁用，则将其设置为“true”，因为在禁用粒度的情况下设置该属性毫无意义
             granularityEnabled = true
         }
     }
     
     /// The minimum interval between axis values.
+    /// 轴值之间的最小间隔
     @objc open var isGranularityEnabled: Bool
     {
         get
@@ -173,8 +180,11 @@ open class AxisBase: ComponentBase
     }
     
     /// Sets the formatter to be used for formatting the axis labels.
+    /// 设置用于设置轴标签格式的格式化程序。
     /// If no formatter is set, the chart will automatically determine a reasonable formatting (concerning decimals) for all the values that are drawn inside the chart.
+    /// 如果未设置格式化程序，图表将自动为图表中绘制的所有值确定合理的格式（关于小数）。
     /// Use `nil` to use the formatter calculated by the chart.
+    /// 使用“nil”使用图表计算的格式器。
     @objc open var valueFormatter: IAxisValueFormatter?
     {
         get
@@ -211,14 +221,16 @@ open class AxisBase: ComponentBase
     @objc open var isDrawLimitLinesBehindDataEnabled: Bool { return drawLimitLinesBehindDataEnabled }
     
     /// Are the grid lines drawn behind the data or in front of the data?
-    ///
+    /// 网格线是绘制在数据后面还是数据前面？
     /// **default**: true
     @objc open var isDrawGridLinesBehindDataEnabled: Bool { return drawGridLinesBehindDataEnabled }
     
     /// Extra spacing for `axisMinimum` to be added to automatically calculated `axisMinimum`
+    /// 要将“axisMinimum”的额外间距添加到自动计算的“axisMinmum”`
     @objc open var spaceMin: Double = 0.0
     
     /// Extra spacing for `axisMaximum` to be added to automatically calculated `axisMaximum`
+    /// 要添加到自动计算的“axisMaximum”中的“axsMaximum”的额外间距`
     @objc open var spaceMax: Double = 0.0
     
     /// Flag indicating that the axis-min value has been customized
@@ -226,6 +238,7 @@ open class AxisBase: ComponentBase
     internal var _customAxisMin: Bool = false
     
     /// Flag indicating that the axis-max value has been customized
+    /// 指示已自定义轴最大值的标志
     internal var _customAxisMax: Bool = false
     
     /// Do not touch this directly, instead, use axisMinimum.
@@ -237,28 +250,36 @@ open class AxisBase: ComponentBase
     internal var _axisMinimum = Double(0)
     
     /// Do not touch this directly, instead, use axisMaximum.
+    /// 不要直接接触，而是使用轴Maximum。
     /// This is automatically calculated to represent the real max value,
+    /// 这被自动计算以表示实际最大值，
     /// and is used when calculating the effective maximum.
+    /// 并且在计算有效最大值时使用。
     internal var _axisMaximum = Double(0)
     
     /// the total range of values this axis covers
+    /// 此轴涵盖的值的总范围
     @objc open var axisRange = Double(0)
     
     /// The minumum number of labels on the axis
+    /// 轴上的最小标签数
     @objc open var axisMinLabels = Int(2) {
         didSet { axisMinLabels = axisMinLabels > 0 ? axisMinLabels : oldValue }
     }
     
     /// The maximum number of labels on the axis
+    /// 轴上的最大标签数
     @objc open var axisMaxLabels = Int(25) {
         didSet { axisMaxLabels = axisMaxLabels > 0 ? axisMaxLabels : oldValue }
     }
     
     /// the number of label entries the axis should have
+    /// 轴应具有的标签条目数
     /// max = 25,
     /// min = 2,
     /// default = 6,
     /// be aware that this number is not fixed and can only be approximated
+    /// 请注意，这个数字不是固定的，只能近似
     @objc open var labelCount: Int
     {
         get
@@ -285,12 +306,14 @@ open class AxisBase: ComponentBase
     @objc open var isForceLabelsEnabled: Bool { return forceLabelsEnabled }
     
     /// Adds a new ChartLimitLine to this axis.
+    /// 将新的ChartLimitLine添加到此轴。
     @objc open func addLimitLine(_ line: ChartLimitLine)
     {
         _limitLines.append(line)
     }
     
     /// Removes the specified ChartLimitLine from the axis.
+    /// 从轴上删除指定的ChartLimitLine。
     @objc open func removeLimitLine(_ line: ChartLimitLine)
     {
         guard let i = _limitLines.firstIndex(of: line) else { return }
@@ -298,6 +321,7 @@ open class AxisBase: ComponentBase
     }
     
     /// Removes all LimitLines from the axis.
+    /// 从轴上删除所有限制线。
     @objc open func removeAllLimitLines()
     {
         _limitLines.removeAll(keepingCapacity: false)
@@ -313,6 +337,7 @@ open class AxisBase: ComponentBase
     // MARK: Custom axis ranges
     
     /// By calling this method, any custom minimum value that has been previously set is reseted, and the calculation is done automatically.
+    /// 通过调用此方法，将重新设定先前设置的任何自定义最小值，并自动完成计算。
     @objc open func resetCustomAxisMin()
     {
         _customAxisMin = false
@@ -321,6 +346,7 @@ open class AxisBase: ComponentBase
     @objc open var isAxisMinCustom: Bool { return _customAxisMin }
     
     /// By calling this method, any custom maximum value that has been previously set is reseted, and the calculation is done automatically.
+    /// 通过调用此方法，将重新设定先前设置的任何自定义最大值，并自动完成计算。
     @objc open func resetCustomAxisMax()
     {
         _customAxisMax = false
@@ -329,8 +355,11 @@ open class AxisBase: ComponentBase
     @objc open var isAxisMaxCustom: Bool { return _customAxisMax }
         
     /// The minimum value for this axis.
+    /// 此轴的最小值。 代表着从此值开始显示
     /// If set, this value will not be calculated automatically depending on the provided data.
+    /// 如果设置，则不会根据提供的数据自动计算该值。
     /// Use `resetCustomAxisMin()` to undo this.
+    /// 使用“resetCustomAxMax（）”撤消此操作。
     @objc open var axisMinimum: Double
     {
         get
@@ -346,8 +375,11 @@ open class AxisBase: ComponentBase
     }
     
     /// The maximum value for this axis.
+    /// 此轴的最大值。 当前轴所持有的最大数量, 如果实际数量小于该值,则后面会留下空白, 如果实际数量大于该值,则只显示实际数量
     /// If set, this value will not be calculated automatically depending on the provided data.
+    /// 如果设置，则不会根据提供的数据自动计算该值。
     /// Use `resetCustomAxisMax()` to undo this.
+    /// 使用“resetCustomAxMax（）”撤消此操作。
     @objc open var axisMaximum: Double
     {
         get

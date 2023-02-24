@@ -25,7 +25,9 @@ import Cocoa
 open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartDataProvider, NSUIGestureRecognizerDelegate
 {
     /// the maximum number of entries to which values will be drawn
+    /// 将绘制值的最大条目数
     /// (entry numbers greater than this value will cause value-labels to disappear)
+    ///（大于此值的条目编号将导致值标签消失）
     internal var _maxVisibleCount = 100
     
     /// flag that indicates if auto scaling on the y axis is enabled
@@ -41,6 +43,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     private var _scaleYEnabled = true
     
     /// the color for the background of the chart-drawing area (everything behind the grid lines).
+    /// 图表绘图区域背景的颜色（网格线后面的所有内容）。
     @objc open var gridBackgroundColor = NSUIColor(red: 240/255.0, green: 240/255.0, blue: 240/255.0, alpha: 1.0)
     
     @objc open var borderColor = NSUIColor.black
@@ -1235,10 +1238,11 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     }
     
     /// Sets the size of the area (range on the x-axis) that should be maximum visible at once (no further zooming out allowed).
-    ///
+    /// 设置区域的大小（x轴上的范围），该区域应立即最大可见（不允许进一步缩小）。
     /// If this is e.g. set to 10, no more than a range of 10 values on the x-axis can be viewed at once without scrolling.
-    ///
+    /// 如果这例如被设置为10，则可以在不滚动的情况下一次查看x轴上不超过10个值的范围。
     /// If you call this method, chart must have data or it has no effect.
+    /// 如果调用此方法，图表必须有数据，否则无效。
     @objc open func setVisibleXRangeMaximum(_ maxXRange: Double)
     {
         let xScale = _xAxis.axisRange / maxXRange

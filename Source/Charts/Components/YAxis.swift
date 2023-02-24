@@ -22,8 +22,11 @@ import Cocoa
 
 
 /// Class representing the y-axis labels settings and its entries.
+/// 类，表示y轴标签设置及其条目。
 /// Be aware that not all features the YLabels class provides are suitable for the RadarChart.
+/// 请注意，并不是YLabels类提供的所有特性都适合RadarChart。
 /// Customizations that affect the value range of the axis need to be applied before setting data for the chart.
+/// 在设置图表数据之前，需要应用影响轴值范围的自定义设置。
 @objc(ChartYAxis)
 open class YAxis: AxisBase
 {
@@ -35,6 +38,7 @@ open class YAxis: AxisBase
     }
     
     ///  Enum that specifies the axis a DataSet should be plotted against, either Left or Right.
+    ///  枚举，该枚举指定数据集应绘制的轴（左或右）。
     @objc
     public enum AxisDependency: Int
     {
@@ -43,57 +47,71 @@ open class YAxis: AxisBase
     }
     
     /// indicates if the bottom y-label entry is drawn or not
+    /// 指示是否绘制底部y标签条目
     @objc open var drawBottomYLabelEntryEnabled = true
     
     /// indicates if the top y-label entry is drawn or not
+    /// 指示是否绘制了顶部y标签条目
     @objc open var drawTopYLabelEntryEnabled = true
     
     /// flag that indicates if the axis is inverted or not
+    /// 指示轴是否反转的标志
     @objc open var inverted = false
     
     /// flag that indicates if the zero-line should be drawn regardless of other grid lines
+    /// 指示是否应绘制零线而不管其他网格线的标志
     @objc open var drawZeroLineEnabled = false
     
     /// Color of the zero line
+    /// 零线的颜色
     @objc open var zeroLineColor: NSUIColor? = NSUIColor.gray
     
     /// Width of the zero line
+    /// 零线的宽度
     @objc open var zeroLineWidth: CGFloat = 1.0
     
     /// This is how much (in pixels) into the dash pattern are we starting from.
+    /// 这是我们从虚线模式开始的数量（以像素为单位）。
     @objc open var zeroLineDashPhase = CGFloat(0.0)
     
-    /// This is the actual dash pattern.
+    /// This is the actual dash pattern. 这是实际的虚线图案。
     /// I.e. [2, 3] will paint [--   --   ]
     /// [1, 3, 4, 2] will paint [-   ----  -   ----  ]
     @objc open var zeroLineDashLengths: [CGFloat]?
 
     /// axis space from the largest value to the top in percent of the total axis range
+    /// 从最大值到顶部的轴空间，占总轴范围的百分比
     @objc open var spaceTop = CGFloat(0.1)
 
     /// axis space from the smallest value to the bottom in percent of the total axis range
+    /// 从最小值到底部的轴空间，占总轴范围的百分比
     @objc open var spaceBottom = CGFloat(0.1)
     
     /// the position of the y-labels relative to the chart
+    /// y标签相对于图表的位置
     @objc open var labelPosition = LabelPosition.outsideChart
 
     /// the alignment of the text in the y-label
+    /// y标签中文本的对齐方式
     @objc open var labelAlignment: NSTextAlignment = .left
 
     /// the horizontal offset of the y-label
+    /// y标签的水平偏移
     @objc open var labelXOffset: CGFloat = 0.0
     
     /// the side this axis object represents
+    /// 此轴对象表示的一侧
     private var _axisDependency = AxisDependency.left
     
     /// the minimum width that the axis should take
-    /// 
+    /// 轴应采用的最小宽度
     /// **default**: 0.0
     @objc open var minWidth = CGFloat(0)
     
     /// the maximum width that the axis can take.
+    /// 轴可以采用的最大宽度。
     /// use Infinity for disabling the maximum.
-    /// 
+    /// 使用Infinity禁用最大值。
     /// **default**: CGFloat.infinity
     @objc open var maxWidth = CGFloat(CGFloat.infinity)
     
